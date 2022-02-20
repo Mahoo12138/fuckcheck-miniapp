@@ -1,0 +1,5 @@
+/* components/subTitle.wxss */
+.sub-title{
+    margin: 20rpx;
+    color: rgb(128, 126, 126);
+}

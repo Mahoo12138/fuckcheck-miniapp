@@ -1,0 +1,24 @@
+/**index.wxss**/
+.banner{
+  height: 25%;
+}
+.banner-item{
+  font-size: 28px;
+  display: flex;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+  justify-content: center;  /* 水平居中 */
+  align-items: center;  /* 垂直居中 */
+}
+
+.tips{
+  margin:0 14px;
+  font-size: 30rpx;
+  line-height: 18px;
+  /* border: red solid 1px; */
+  color: rgb(90, 90, 90);
+}
+
+.fab-button{
+  bottom: 150rpx!important;
+}

@@ -1,0 +1,41 @@
+<!--pages/tasks/tasks.wxml-->
+<scroll-view scroll-y="true" class="container task-container">
+
+    <view class="card-container" >
+        <wux-card wux-class="card" title="任务一" extra="备注一" actions="{{ actions }}" >
+        <view slot="body">
+            <text>地址：辽宁省大连市金州区大连大学</text>
+        </view>
+        <view slot="footer">在2022年02月04号使用过</view>
+    </wux-card>
+    </view>
+    <view class="card-container" >
+        <wux-card wux-class="card" title="任务一" extra="备注一" actions="{{ actions }}" >
+        <view slot="body">
+            <text>地址：辽宁省大连市金州区大连大学</text>
+        </view>
+        <view slot="footer">在2022年02月04号使用过</view>
+    </wux-card>
+    </view>
+    <view class="card-container" >
+        <wux-card wux-class="card" title="任务一" extra="备注一" actions="{{ actions }}" >
+        <view slot="body">
+            <text>地址：湖南省永州市蓝山县塔峰镇南坪西路</text>
+        </view>
+        <view slot="footer">在2022年02月14号使用过</view>
+    </wux-card>
+    </view>
+    <view class="card-container" >
+        <wux-card wux-class="card" title="任务三" extra="备注一" actions="{{ actions }}" >
+        <view slot="body">
+            <text>地址：辽宁省大连市金州区大连大学</text>
+        </view>
+        <view slot="footer">在2022年02月04号使用过</view>
+    </wux-card>
+    </view>
+    <wux-white-space size="large" />
+    <wux-white-space size="large" />
+    <wux-white-space size="large" />
+    <wux-white-space size="large" />
+    <wux-white-space size="large" />
+</scroll-view>

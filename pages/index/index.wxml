@@ -1,0 +1,26 @@
+<!--index.wxml-->
+<view class="container">
+  <swiper indicator-dots="{{indicatorDots}}" class="banner" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{background}}" wx:key="*this">
+      <swiper-item>
+        <view class="banner-item">
+          <view>{{item}}招租</view>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <sub-title title="我的账号"></sub-title>
+  <van-cell size="large" title="学号：18422044" is-link value="内容" arrow-direction="" />
+  <van-cell size="large" title="学号：18422043" is-link value="内容" arrow-direction="" />
+  <!-- <view class="userinfo">
+    <navigator url="/pages/logs/logs">前往任务</navigator>
+  </view> -->
+  <sub-title title="使用说明"></sub-title>
+  <view class="tips">
+    添加账号，选择任务，可以对不同任务指定不同地点，若出现问题，请及时联系开发者！
+  </view>
+
+  <wux-fab-button wux-class="fab-button"/>
+
+</view>

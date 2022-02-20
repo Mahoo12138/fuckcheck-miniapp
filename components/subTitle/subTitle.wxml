@@ -1,0 +1,4 @@
+<!--components/subTitle.wxml-->
+<view class="sub-title">
+    <text>{{title}}</text>
+</view>

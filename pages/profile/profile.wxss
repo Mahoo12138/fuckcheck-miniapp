@@ -1,0 +1,35 @@
+/* pages/profile/profile.wxss */
+.info-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 300rpx;
+    background-color: #fff;
+    /* border-radius:30rpx; */
+    /* border: rgb(217, 217, 217); */
+    /* box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1); */
+    /* box-shadow: 0 2px 8px 0 rgba(131, 129, 129, 0.2), 0 3px 20px 0 rgba(146, 143, 143, 0.19); */
+}
+.setting-container{
+    /* background-color: #fff; */
+    border-radius: 10rpx;
+    font-size: 30rpx !important;
+    /* padding:5rpx; */
+}
+.avatar{
+    /* padding-top: 40rpx; */
+    text-align: center;
+    flex-grow: 1;
+}
+.userinfo{
+    flex-grow:1;
+}
+.avatar-img{
+    width:180rpx;
+    height:180rpx;
+    border-radius:50%;
+}
+
+.username{
+    font-size: 50rpx;
+}
