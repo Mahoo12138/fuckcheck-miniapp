@@ -1,0 +1,17 @@
+/* pages/edit/edit.wxss */
+
+.button-container{
+    position: fixed;
+    left:20rpx;
+    right:20rpx;
+    bottom: 20rpx;
+    z-index: 99;
+}
+.van-dialog__header{
+    font-size: 40rpx;
+}
+.van-dialog__message-text{
+    display: block;
+    font-size: 35rpx;
+    margin: 25rpx!important;
+}

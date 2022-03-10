@@ -12,13 +12,30 @@
 }
 
 .tips{
-  margin:0 14px;
+  margin:0 40rpx;
   font-size: 30rpx;
-  line-height: 18px;
+  line-height: 36rpx;
   /* border: red solid 1px; */
   color: rgb(90, 90, 90);
 }
 
-.fab-button{
-  bottom: 150rpx!important;
+.button-container{
+  display: flex;
+  flex-direction: column;
+  padding: 0 20rpx;
+}
+.button-container > van-button {
+  margin-top: 25rpx;
+}
+.form-container{
+  padding: 35rpx   25rpx 35rpx  45rpx;
+}
+.list-title{
+  padding: 2rpx;
+}
+.account-none{
+  font-size: 40rpx;
+  color: rgb(102, 100, 100);
+  text-align: center;
+  padding: 25rpx 0;
 }

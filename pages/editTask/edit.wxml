@@ -1,0 +1,36 @@
+<!--pages/editTask/edit.wxml-->
+<view class="container edit-container">
+    <van-toast id="van-toast" />
+    <scroll-view>
+        <sub-title title="新建配置" />
+        <van-cell-group>
+            <van-field label="任务名称" error-message="{{error.username}}" type="text" model:value="{{ title }}" required placeholder="请输入名称" title-width="150rpx" size="large" border="{{ false }}">
+
+            </van-field>
+            <van-field bind:click-input="showTypePicker" readonly label="任务类型" type="text" model:value="{{ typeName }}" placeholder="请选择类型" title-width="150rpx" size="large" border="{{ false }}">
+            </van-field>
+        </van-cell-group>
+
+        <van-cell-group>
+            <van-field label="签到地点" error-message="{{error.username}}" type="text" model:value="{{ address }}" required placeholder="请输入地点" title-width="150rpx" size="large" border="{{ false }}">
+
+            </van-field>
+        </van-cell-group>
+        <van-cell-group>
+            <van-field label="签到时间" bind:click-input="showTimePicker" error-message="{{error.username}}" type="text" size="large" model:value="{{ time }}" required readonly placeholder="请选择签到时间" title-width="150rpx" border="{{ false }}">
+
+            </van-field>
+        </van-cell-group>
+        <van-popup show="{{ isShowtimePick }}" position="bottom" custom-style="height: 40%" bind:close="onClose">
+            <view style="margin-top: 20rpx;">
+                <van-datetime-picker value="{{ time }}" filter="{{ filter }}" item-height="50" title="选择签到时间" type="time" min-hour="6" max-hour="16" bind:confirm="handleTimePicker" bind:cancel="cancelTimePicker" visible-item-count="5" />
+            </view>
+        </van-popup>
+        <van-action-sheet show="{{ isShowtypePick }}" actions="{{ actions }}" bind:cancel="cancelTypePicker" bind:select="updateTaskType" cancel-text="取消" />
+
+
+    </scroll-view>
+    <view class="button-container">
+        <van-button loading="{{loading}}" loading-text="添加中" bind:click="addTask" type="info" size="large" round block="{{true}}" custom-style="padding: 0 60rpx;">提交</van-button>
+    </view>
+</view>

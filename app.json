@@ -20,11 +20,15 @@
         ]
     },
     "pages": [
+        
+        "pages/splash/splash",
         "pages/index/index",
         "pages/tasks/tasks",
         "pages/profile/profile",
         "pages/logs/logs",
-        "pages/splash/splash"
+        "pages/editTask/edit",
+        "pages/editStu/edit"
+        
     ],
     "window": {
         "backgroundTextStyle": "light",

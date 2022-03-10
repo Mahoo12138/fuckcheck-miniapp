@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "van-cell": "@vant/weapp/cell/index",
+    "wux-cell": "wux-weapp/cell/index",
     "sub-title": "../../components/subTitle/subTitle"
   }
 }

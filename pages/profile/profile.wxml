@@ -2,22 +2,29 @@
 <view class="container">
     <view class="info-container">
         <view class="avatar">
-            <image class="avatar-img" src="https://www.mahoo12138.cn/medias/avatar.jpg" />
+            <view class="avatar-img">
+                <open-data type="userAvatarUrl"></open-data>
+            </view>
         </view>
+
         <view class="userinfo">
-            <view class="username">Mahoo12138</view>
-            <view class="account-info">当前共有 1 个账号签到</view>
+            <view class="username"><open-data type="userNickName"></open-data></view>
+            <view class="account-info">当前共有 {{num}} 个账号签到</view>
         </view>
     </view>
     <sub-title title="我的账号"></sub-title>
     <view class="setting-container">
-        <van-cell title="消息设置" is-link value="说明文字" size="large"></van-cell>
-        <van-cell title="每日签到" is-link value="说明文字" size="large"></van-cell>
-        <van-cell title="操作记录" is-link size="large"></van-cell>
-        <van-cell title="联系我们" is-link url="/pages/index/index" open-type="switchTab" size="large"></van-cell>
-        <van-cell title="帮助中心" is-link open-type="contact" bind:contact="onContact" size="large"></van-cell>
-        <van-cell title="分享" is-link open-type="share" size="large"></van-cell>
-        <van-cell title="关于" is-link open-type="getUserInfo" bind:getuserinfo="onGotUserInfo" size="large"></van-cell>
+        <van-cell title="消息设置" is-link value="不推送" size="large"></van-cell>
+        <van-cell title="每日签到" is-link value="今日已签到" size="large"></van-cell>
+        <van-cell title="操作记录" is-link url="/pages/logs/logs" size="large"></van-cell>
+        <van-cell title="帮助中心" is-link url="/pages/index/index" open-type="switchTab" size="large"></van-cell>
+        <button class="cell-button" open-type="contact" plain="true">
+            <van-cell title="联系我们" is-link size="large"></van-cell>
+        </button>
+        <button class="cell-button" open-type="share" plain="true">
+            <van-cell title="分享" is-link size="large"></van-cell>
+        </button>
+        <van-cell title="关于" is-link bind:click="" size="large"></van-cell>
 
     </view>
 </view>

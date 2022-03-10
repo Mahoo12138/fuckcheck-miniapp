@@ -30,7 +30,7 @@ Component({
 		},
 
 		init() {
-			console.log("init")
+			console.log("tabbar init")
 			const page = getCurrentPages().pop();
 			this.setData({
 				active: this.data.list.findIndex(item => item.url === `/${page.route}`)

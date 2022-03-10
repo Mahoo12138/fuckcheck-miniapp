@@ -1,8 +1,31 @@
 /* pages/tasks/tasks.wxss */
+.task-container{
+    padding-bottom: 240rpx;
+}
+
 .card-container{
     padding: 30rpx 20rpx 30rpx 20rpx;
 }
 
 .card{
     box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
+}
+.card-content{
+    padding: 20rpx;
+    font-size: 32rpx;
+    line-height: 42rpx;
+}
+.card-content > view {
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.button-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    bottom: 140rpx;
 }

@@ -1,0 +1,11 @@
+/* pages/editTask/edit.wxss */
+.edit-container{
+    padding:0 20rpx;
+}
+.button-container{
+    position: fixed;
+    left:20rpx;
+    right:20rpx;
+    bottom: 20rpx;
+    z-index: 99;
+}

@@ -1,0 +1,38 @@
+<!--pages/editTask/edit.wxml-->
+<view class="container edit-container">
+    <van-toast id="van-toast" />
+    <scroll-view>
+        <sub-title title="编辑账号信息" />
+        <van-cell-group>
+            <van-field label="账号" error-message="{{error.username}}" type="text" model:value="{{ stuid }}" required placeholder="请输入账号" title-width="150rpx" size="large" border="{{ false }}">
+
+            </van-field>
+            <van-field label="密码" required error-message="{{error.username}}" type="text" model:value="{{ password }}" placeholder="请输入密码" title-width="150rpx" size="large" border="{{ false }}">
+            </van-field>
+
+            <van-field label="学堂" required error-message="{{error.username}}" type="text" model:value="{{ school }}" placeholder="请输入学堂名称" title-width="150rpx" size="large" border="{{ false }}">
+            </van-field>
+        </van-cell-group>
+
+        <van-cell-group>
+            <van-field bind:click-icon="gotoTaskPage" bind:click-input="oepnTaskSelector" label="任务配置" error-message="{{error.username}}" type="text" model:value="{{ taskname }}" required readonly title-width="150rpx" size="large" border="{{ false }}">
+                <view slot="right-icon">
+                    <van-icon name="edit" />
+                </view>
+            </van-field>
+
+            <van-field label="运行开关" title-width="150rpx" size="large" border="{{ false }}">
+                <view slot="input" style="padding-top: 12rpx;">
+                    <van-switch bind:change="handleCheck" checked="{{ isRun }}" size="38rpx" active-color="#07c160" inactive-color="#ee0a24" />
+                </view>
+            </van-field>
+        </van-cell-group>
+
+    </scroll-view>
+    <van-dialog id="van-dialog" />
+    <van-action-sheet bind:select="handSelectTask" bind:click-overlay="closeTaskSelector" bind:cancel="closeTaskSelector" cancel-text="取消" show="{{ isShowTaskSelector }}" actions="{{ actions }}" description="选择使用的任务" />
+
+    <view class="button-container">
+        <van-button loading="{{loading}}" loading-text="添加中" bind:click="editStuId" type="info" size="large" round block="{{true}}" custom-style="padding: 0 60rpx;">提交</van-button>
+    </view>
+</view>

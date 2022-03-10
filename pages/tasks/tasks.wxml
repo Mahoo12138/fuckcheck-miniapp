@@ -1,41 +1,34 @@
-<!--pages/tasks/tasks.wxml-->
-<scroll-view scroll-y="true" class="container task-container">
+<view class="container">
+    <!--pages/tasks/tasks.wxml-->
+    <view wx:if="{{tasks.length === 0}}">
+        <van-empty description="当前未添加任务" />
+    </view>
+    <scroll-view wx:else scroll-y="true" class="task-container">
+        <block wx:for="{{tasks}}" wx:for-item="item" wx:key="id" wx:for-index="index">
+            <view class="card-container">
+                <wux-card bind:action="editCard" wux-class="card" title="{{item.title}}" extra="{{item.remark}}" actions="{{ actions }}" data-index="{{ index }}">
+                    <view slot="extra">
+                        <block wx:if="{{item.stuid?true:false}}">
+                            <van-tag round type="primary" size="large">{{item.stuid.stuid}}</van-tag>
+                        </block>
+                        <block wx:else>
+                            <van-tag round type="success" size="large">未使用</van-tag>
+                        </block>
+                    </view>
+                    <view slot="body" class="card-content">
+                        <view><text style="color: gray;">打卡地址：</text>{{item.address}}</view>
+                        <view><text style="color: gray;">打卡时间：</text>{{item.time}}</view>
+                        <view><text style="color: gray;">打卡类型：</text>{{item.type ==="collect"?"信息收集":"签到、查寝"}}</view>
+                    </view>
+                    <view slot="footer">在2022年02月04号使用过</view>
+                </wux-card>
+            </view>
+        </block>
+    </scroll-view>
 
-    <view class="card-container" >
-        <wux-card wux-class="card" title="任务一" extra="备注一" actions="{{ actions }}" >
-        <view slot="body">
-            <text>地址：辽宁省大连市金州区大连大学</text>
-        </view>
-        <view slot="footer">在2022年02月04号使用过</view>
-    </wux-card>
+    <view class="button-container">
+        <van-button bind:click="addTask" type="info" size="large" icon="plus" round block custom-style="padding: 0 60rpx;">添加配置</van-button>
     </view>
-    <view class="card-container" >
-        <wux-card wux-class="card" title="任务一" extra="备注一" actions="{{ actions }}" >
-        <view slot="body">
-            <text>地址：辽宁省大连市金州区大连大学</text>
-        </view>
-        <view slot="footer">在2022年02月04号使用过</view>
-    </wux-card>
-    </view>
-    <view class="card-container" >
-        <wux-card wux-class="card" title="任务一" extra="备注一" actions="{{ actions }}" >
-        <view slot="body">
-            <text>地址：湖南省永州市蓝山县塔峰镇南坪西路</text>
-        </view>
-        <view slot="footer">在2022年02月14号使用过</view>
-    </wux-card>
-    </view>
-    <view class="card-container" >
-        <wux-card wux-class="card" title="任务三" extra="备注一" actions="{{ actions }}" >
-        <view slot="body">
-            <text>地址：辽宁省大连市金州区大连大学</text>
-        </view>
-        <view slot="footer">在2022年02月04号使用过</view>
-    </wux-card>
-    </view>
-    <wux-white-space size="large" />
-    <wux-white-space size="large" />
-    <wux-white-space size="large" />
-    <wux-white-space size="large" />
-    <wux-white-space size="large" />
-</scroll-view>
+    <van-dialog id="van-dialog" message-align="left" />
+    <van-toast id="van-toast" />
+</view>
