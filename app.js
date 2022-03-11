@@ -12,8 +12,8 @@ App({
         console.log(res);
         if (res.code) {
           wx.request({
-            // url: "https://api.mahoo12138.cn/auth/login",
-            url: "https://192.168.0.101:3000/auth/login",
+            url: "https://api.mahoo12138.cn/auth/login",
+            // url: "https://192.168.0.101:3000/auth/login",
 
             data: res,
             method: "POST",

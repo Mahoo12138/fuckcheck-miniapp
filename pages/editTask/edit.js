@@ -116,7 +116,7 @@ Page({
       user: app.globalData.userID,
       stuid: sid,
     })
-      .then(({data}) => {
+      .then((data) => {
         console.log(data);
         Toast.clear();
         Toast.success(message);

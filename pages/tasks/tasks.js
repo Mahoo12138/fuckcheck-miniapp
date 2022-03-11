@@ -23,13 +23,14 @@ Page({
   editCard({ detail, target }) {
     let that = this;
     console.log(target);
+    const {stuid, ...task} = this.data.tasks[target.dataset.index]
     if (detail.action.type === "default") {
-      const url = qs(this.data.tasks[target.dataset.index]);
+      const url = qs(task);
+      console.log(stuid)
       wx.navigateTo({
-        url: "/pages/editTask/edit?" + url + "&ctype=edit",
+        url: "/pages/editTask/edit?" + url + (stuid===null?"":`&sid=${stuid.id}`) + "&ctype=edit",
       });
     } else {
-      const task = this.data.tasks[target.dataset.index];
       Dialog.confirm({
         title: `是否删除“${task.title}”?`,
         message: `签到地点：${task.address}\n 签到时间：${task.time}`,

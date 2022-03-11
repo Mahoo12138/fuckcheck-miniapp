@@ -6,6 +6,7 @@ const Dialog = require("../../miniprogram_npm/@vant/weapp/dialog/dialog")
 const Toast = require("../../miniprogram_npm/@vant/weapp/toast/toast").default;
 const request = require("../../utils/util").request;
 const qs = require("../../utils/util").qs;
+const timeFormatter = require("../../utils/util").timeFormatter;
 // 获取应用实例
 const app = getApp();
 
@@ -132,7 +133,12 @@ Page({
           await request(`/log/?id=${i.task.id}`, "GET").then(({ data }) => {
             console.log(data);
             if (data && data[0]) {
-              i.status = data[0].status;
+              if(((new Date().getTime() - Date.parse("2022-03-11T06:00:46.419Z")) / (1000 * 60 * 60)) > 24){
+                i.status = null
+              }else{
+                i.status = data[0].status;
+              }
+              
             }
           });
         }
