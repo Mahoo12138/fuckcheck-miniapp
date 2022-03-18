@@ -3,18 +3,19 @@
     <view class="info-container">
         <view class="avatar">
             <view class="avatar-img">
-                <open-data type="userAvatarUrl"></open-data>
+                <!-- <open-data type="userAvatarUrl"></open-data> -->
+                <van-image round width="180rpx" height="180rpx" src="{{avatar}}" />
             </view>
         </view>
 
         <view class="userinfo">
-            <view class="username"><open-data type="userNickName"></open-data></view>
-            <view class="account-info">当前共有 {{num}} 个账号签到</view>
+            <view class="username">{{nickname}}</view>
+            <view class="account-info">当前共有 {{user.num}} 个账号签到</view>
         </view>
     </view>
     <sub-title title="我的账号"></sub-title>
     <view class="setting-container">
-        <van-cell title="消息设置" is-link value="不推送" size="large"></van-cell>
+        <van-cell title="消息推送" is-link url="/pages/push/push" value="{{user.push?'开启':'关闭'}}" size="large"></van-cell>
         <van-cell title="每日签到" is-link value="今日已签到" size="large"></van-cell>
         <van-cell title="操作记录" is-link url="/pages/logs/logs" size="large"></van-cell>
         <van-cell title="帮助中心" is-link url="/pages/index/index" open-type="switchTab" size="large"></van-cell>

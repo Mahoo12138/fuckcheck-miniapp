@@ -32,9 +32,6 @@
 .avatar-img {
     overflow: hidden;
     display: block;
-    width: 180rpx;
-    height: 180rpx;
-    border-radius: 50%;
 }
 
 .username {

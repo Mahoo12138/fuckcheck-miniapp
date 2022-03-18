@@ -5,8 +5,6 @@ const Dialog = require("../../miniprogram_npm/@vant/weapp/dialog/dialog")
   .default;
 const Toast = require("../../miniprogram_npm/@vant/weapp/toast/toast").default;
 const request = require("../../utils/util").request;
-const qs = require("../../utils/util").qs;
-const timeFormatter = require("../../utils/util").timeFormatter;
 // 获取应用实例
 const app = getApp();
 
@@ -42,11 +40,11 @@ Page({
             return;
           }
           console.log("handle account: " + stuid);
-          request(`/stuid?id=${app.globalData.userID}`, "POST", {
+          request(`/stuid?id=${that.data.user.id}`, "POST", {
             stuid,
             password,
             school,
-            user: app.globalData.userID,
+            user: that.user.id,
           }).then((data) => {
             let message = "添加成功";
             if (data.code === 200) {
@@ -120,20 +118,21 @@ Page({
   },
   async reFreshData() {
     const stuid = await request(
-      `/stuid?id=${app.globalData.userID}`,
+      `/stuid?id=${app.globalData.user.id}`,
       "GET"
     ).then(({ data }) => {
       console.log(data);
       return data;
     });
     if(stuid.length !== 0){
-      app.globalData.num = stuid.length;
+      app.globalData.user.num = stuid.length;
       for (let i of stuid) {
         if (i.task) {
           await request(`/log/?id=${i.task.id}`, "GET").then(({ data }) => {
             console.log(data);
             if (data && data[0]) {
-              if(((new Date().getTime() - Date.parse("2022-03-11T06:00:46.419Z")) / (1000 * 60 * 60)) > 24){
+              console.log(((new Date().getTime() - Date.parse(data[0].time)) / (1000 * 60 * 60)))
+              if(((new Date().getTime() - Date.parse(data[0].time)) / (1000 * 60 * 60)) > 24){
                 i.status = null
               }else{
                 i.status = data[0].status;

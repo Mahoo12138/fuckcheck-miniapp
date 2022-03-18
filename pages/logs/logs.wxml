@@ -1,6 +1,5 @@
 <!--logs.wxml-->
 <view class="container log-list">
-  <block wx:for="{{logs}}" wx:key="timeStamp" wx:for-item="log">
-    <text class="log-item">{{index + 1}}. {{log.date}}</text>
-  </block>
+  <view>测试订阅消息</view>
+  <van-button type="primary" bind:click="onClick">默认按钮</van-button>
 </view>

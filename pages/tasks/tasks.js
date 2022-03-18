@@ -57,7 +57,7 @@ Page({
 
   reFreshData() {
     let that = this;
-    request(`/task?id=${app.globalData.userID}`, "GET").then(({ data }) => {
+    request(`/task?id=${app.globalData.user.id}`, "GET").then(({ data }) => {
       console.log(data);
       that.setData({
         tasks: data.map((task) => {

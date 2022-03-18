@@ -1,4 +1,6 @@
 {
   "navigationBarTitleText": "操作记录",
-  "usingComponents": {}
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index"
+  }
 }

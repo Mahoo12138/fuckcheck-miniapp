@@ -5,7 +5,6 @@ Page({
   data: {
     nickname: null,
     avatar: null,
-    num: 0
   },
   onContact (e) {
 	console.log(e.detail.path)
@@ -17,10 +16,13 @@ Page({
     this.setData({
       nickname,
       avatar,
-      num: app.globalData.num
+      user: app.globalData.user
     });
   },
   onShow() {
     this.getTabBar().init();
+    this.setData({
+      user: app.globalData.user
+    });
   },
 });

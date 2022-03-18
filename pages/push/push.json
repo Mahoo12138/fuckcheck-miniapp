@@ -1,0 +1,10 @@
+{
+  "usingComponents": {
+    "van-cell": "@vant/weapp/cell/index",
+    "van-switch": "@vant/weapp/switch/index",
+    "van-toast": "@vant/weapp/toast/index",
+    "sub-title": "../../components/subTitle/subTitle",
+    "van-field": "@vant/weapp/field/index",
+    "van-button": "@vant/weapp/button/index"
+  }
+}

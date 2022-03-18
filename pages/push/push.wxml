@@ -1,0 +1,27 @@
+<view class="container">
+    <sub-title title="推送选项"></sub-title>
+    <van-cell title="Token" value="{{user.pptoken?user.pptoken:'暂未设置'}}" size="large" label="用于推送消息的凭证">
+    </van-cell>
+    <van-cell title="推送开关" size="large" label="推送消息的总开关">
+        <van-switch loading="{{loading}}" checked="{{ user.push }}" bind:change="onChangePush" />
+    </van-cell>
+    <van-field model:value="{{ pptoken }}" placeholder="请输入Token" use-button-slot bind:change="onChange" size="large" error-message="{{error}}" bind:focus="cancelError">
+        <van-button slot="button" size="normal" type="primary" bind:click="updateToken">
+            设置/更新
+        </van-button>
+    </van-field>
+
+    <sub-title title="推送说明"></sub-title>
+    <view class="content">
+        因为个人小程序的限制，无法每天定时推送消息，所以采用第三方的推送平台：
+    </view>
+    <view style="text-align: center;">
+        <image style="width: 320rpx; height: 320rpx; " src="http://image.pushplus.plus/pc/image/pushplus_mp.jpg" mode="aspectFit" show-menu-by-longpress/>
+    </view>
+    <view class="content">
+        关注该公众号后，点击消息内的【点击启用推送功能】，点击【开发设置】->【Token】，一键复制后粘贴到此处。
+    </view>
+    <van-toast id="van-toast" />
+
+
+</view>

@@ -1,0 +1,5 @@
+/* pages/push/push.wxss */
+
+.content{
+    padding: 0 20rpx;
+}
