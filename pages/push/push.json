@@ -1,4 +1,5 @@
 {
+  "navigationBarTitleText": "推送管理",
   "usingComponents": {
     "van-cell": "@vant/weapp/cell/index",
     "van-switch": "@vant/weapp/switch/index",

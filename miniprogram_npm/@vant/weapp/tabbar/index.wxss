@@ -4,7 +4,7 @@
     background-color: var(--tabbar-background-color, #fff);
     box-sizing: initial;
     display: flex;
-    height: var(--tabbar-height, 60px);
+    height: var(--tabbar-height, 70px);
     width: 100%
 }
 

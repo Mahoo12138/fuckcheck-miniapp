@@ -2,12 +2,7 @@
   "navigationBarTitleText": "我的任务配置",
   "usingComponents": {
     "wux-card": "wux-weapp/card/index",
-    "wux-wing-blank": "wux-weapp/wing-blank/index",
-    "wux-white-space": "wux-weapp/white-space/index",
-    "wux-cell-group": "wux-weapp/cell-group/index",
-    "wux-cell": "wux-weapp/cell/index",
     "van-swipe-cell": "@vant/weapp/swipe-cell/index",
-    "wux-switch": "wux-weapp/switch/index",
     "van-button": "@vant/weapp/button/index",
     "van-dialog": "@vant/weapp/dialog/index",
     "van-toast": "@vant/weapp/toast/index",

@@ -13,17 +13,25 @@
 
         <van-cell-group>
             <van-field label="签到地点" error-message="{{error.username}}" type="text" model:value="{{ address }}" required placeholder="请输入地点" title-width="150rpx" size="large" border="{{ false }}">
-
             </van-field>
+            <block wx:if="{{type==='sign'}}">
+                <van-field label="签到次数" title-width="140rpx" size="large" border="{{ false }}">
+                <view slot="input" class="slider-container">
+                    <van-slider min="1" max="3" bar-height="10rpx" value="{{time.length}}" use-button-slot bind:change="onNumChange">
+                        <van-tag size="large" round type="primary" slot="button">{{time.length}}</van-tag>
+                    </van-slider>
+                </view>
+            </van-field>
+            </block>
         </van-cell-group>
         <van-cell-group>
-            <van-field label="签到时间" bind:click-input="showTimePicker" error-message="{{error.username}}" type="text" size="large" model:value="{{ time }}" required readonly placeholder="请选择签到时间" title-width="150rpx" border="{{ false }}">
-
-            </van-field>
+            <block wx:for="{{time}}" wx:for-item="item">
+                <van-field data-index="{{item}}" label="签到时间" bind:click-input="showTimePicker" type="text" size="large" model:value="{{ item }}" required readonly placeholder="请选择签到时间" title-width="150rpx" border="{{ false }}"></van-field>
+            </block>
         </van-cell-group>
         <van-popup show="{{ isShowtimePick }}" position="bottom" custom-style="height: 40%" bind:close="onClose">
             <view style="margin-top: 20rpx;">
-                <van-datetime-picker value="{{ time }}" filter="{{ filter }}" item-height="50" title="选择签到时间" type="time" min-hour="6" max-hour="16" bind:confirm="handleTimePicker" bind:cancel="cancelTimePicker" visible-item-count="5" />
+                <van-datetime-picker value="{{ current }}" filter="{{ filter }}" item-height="50" title="选择签到时间" type="time" min-hour="6" max-hour="16" bind:confirm="handleTimePicker" bind:cancel="cancelTimePicker" visible-item-count="5" />
             </view>
         </van-popup>
         <van-action-sheet show="{{ isShowtypePick }}" actions="{{ actions }}" bind:cancel="cancelTypePicker" bind:select="updateTaskType" cancel-text="取消" />

@@ -1,11 +1,11 @@
 <!--pages/splash.wxml-->
-<block wx:if="{{app.globalData.isLogin}}">
-    <view> 当前暂未登录，无法使用小程序功能 </view>
-    <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 继续登录 </button>
-</block>
-<block wx:else>
+<block wx:if="{{app.globalData.isLogin === null}}">
+    
     <view class="loading-container">
         <van-loading text-size="40rpx" vertical color="#1989fa" size="200rpx" >登录中…</van-loading>
     </view>
-    
+</block>
+<block wx:elif="{{app.globalData.isLogin === false}}">
+    <view> 登录失败 </view>
+    <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 继续登录 </button>
 </block>

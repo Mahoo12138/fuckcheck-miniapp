@@ -1,8 +1,6 @@
 {
   "usingComponents": {
     "van-cell": "@vant/weapp/cell/index",
-    "van-cell-group": "@vant/weapp/cell-group/index",
-    "wux-white-space": "wux-weapp/white-space/index",
     "sub-title": "../../components/subTitle/subTitle",
     "van-button": "@vant/weapp/button/index",
     "van-dialog": "@vant/weapp/dialog/index",

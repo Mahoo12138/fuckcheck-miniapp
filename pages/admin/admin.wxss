@@ -8,7 +8,7 @@
     bottom: 30rpx;
 }
 .admin-container{
-    margin-bottom: 30rpx;
+    margin-bottom: 150rpx;
 }
 .form-container{
     padding: 35rpx 48rpx;

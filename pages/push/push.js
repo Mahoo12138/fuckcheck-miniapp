@@ -4,7 +4,6 @@ const app = getApp();
 const request = require("../../utils/util").request;
 const Toast = require("../../miniprogram_npm/@vant/weapp/toast/toast").default;
 Page({
-
     /**
      * 页面的初始数据
      */

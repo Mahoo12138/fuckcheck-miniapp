@@ -4,7 +4,7 @@
   /* background-color: rgb(241, 241, 241); */
   background-color: #fff;
   height: 100vh;
-  /* padding: 20rpx; */
+  padding-bottom: 120rpx;
   /* font-size: 40rpx; */
 }
 .field-style{

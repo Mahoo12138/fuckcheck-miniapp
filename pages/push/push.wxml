@@ -1,6 +1,6 @@
 <view class="container">
     <sub-title title="推送选项"></sub-title>
-    <van-cell title="Token" value="{{user.pptoken?user.pptoken:'暂未设置'}}" size="large" label="用于推送消息的凭证">
+    <van-cell title-width="300rpx" input-align="right" title="Token" value="{{user.pptoken?user.pptoken:'暂未设置'}}" size="large" label="用于推送消息的凭证">
     </van-cell>
     <van-cell title="推送开关" size="large" label="推送消息的总开关">
         <van-switch loading="{{loading}}" checked="{{ user.push }}" bind:change="onChangePush" />

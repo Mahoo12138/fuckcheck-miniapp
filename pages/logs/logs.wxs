@@ -1,0 +1,27 @@
+var typeToName = function (type) {
+    if(type === 'MONTH') return "月卡卡密"
+    else if(type === 'WEEK') return "周卡卡密"
+    else return "账号卡密"
+};
+
+function timeFormat(value) {
+  var da = getDate( value.replace("/Date(", "").replace(")/", "").split("+")[0]);
+  return (
+    da.getFullYear() +
+    "年" +
+    (da.getMonth() + 1 < 10 ? (da.getMonth() + 1) : da.getMonth() + 1) +
+    "月" +
+    (da.getDate() < 10 ? da.getDate() : da.getDate()) +
+    "日 " +
+    (da.getHours() < 10 ? "0" + da.getHours() : da.getHours()) +
+    ":" +
+    (da.getMinutes() < 10 ? "0" + da.getMinutes() : da.getMinutes()) +
+    ":" +
+    (da.getSeconds() < 10 ? "0" + da.getSeconds() : da.getSeconds())
+  );
+}
+
+module.exports = {
+  typeToName: typeToName,
+  timeFormat: timeFormat
+};

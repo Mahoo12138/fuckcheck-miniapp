@@ -1,6 +1,5 @@
 <!--index.wxml-->
-<view class="container">
-  <van-notify id="custom-selector" />
+<scroll-view scroll-y="true" class="container">
   <swiper indicator-dots="{{indicatorDots}}" class="banner" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
     <block wx:for="{{background}}" wx:key="*this">
       <swiper-item>
@@ -10,8 +9,7 @@
       </swiper-item>
     </block>
   </swiper>
-
-
+  <van-notify id="custom-selector" />
   <sub-title title="我的账号"></sub-title>
   <block wx:if="{{stuid.length === 0}}">
     <view class="account-none">还没有添加任何账号呢</view>
@@ -35,14 +33,11 @@
       </van-cell>
     </block>
   </block>
-
   <view class="button-container">
     <van-button bind:click="addStuId" type="primary" size="large" icon="plus" round>添加账号</van-button>
-    <van-button bind:click="onTest" type="info" size="large" icon="guide-o" round>手动提交</van-button>
+    <van-button bind:click="handleManual" type="info" size="large" icon="guide-o" round>手动提交</van-button>
   </view>
-
   <sub-title title="使用说明"></sub-title>
-
   <view class="tips">
     添加账号前，需要在原APP内设置密码，可选择找回密码；若已设置则直接选择任务，可以对不同任务指定不同地点，若出现问题，请及时联系开发者！
   </view>
@@ -65,8 +60,4 @@
   </van-dialog>
 
   <van-toast id="van-toast" />
-
-
-
-
-</view>
+</scroll-view>

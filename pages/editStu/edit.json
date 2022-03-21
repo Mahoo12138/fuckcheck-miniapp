@@ -6,7 +6,6 @@
     "van-datetime-picker": "@vant/weapp/datetime-picker/index",
     "van-toast": "@vant/weapp/toast/index",
     "van-popup": "@vant/weapp/popup/index",
-    "van-nav-bar": "@vant/weapp/nav-bar/index",
     "van-switch": "@vant/weapp/switch/index",
     "van-action-sheet": "@vant/weapp/action-sheet/index",
     "van-icon": "@vant/weapp/icon/index",

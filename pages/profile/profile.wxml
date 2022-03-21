@@ -16,15 +16,20 @@
     <sub-title title="我的账号"></sub-title>
     <view class="setting-container">
         <van-cell title="消息推送" is-link url="/pages/push/push" value="{{user.push?'开启':'关闭'}}" size="large"></van-cell>
-        <van-cell title="每日签到" is-link value="今日已签到" size="large"></van-cell>
-        <van-cell title="操作记录" is-link url="/pages/logs/logs" size="large"></van-cell>
+        <block wx:if="{{user.id === 1}}">
+            <van-cell title="卡密管理" is-link url="/pages/admin/admin" size="large"></van-cell>
+        </block>
+
+        <van-cell title="卡密中心" is-link url="/pages/service/service" size="large"></van-cell>
+
+        <van-cell title="签到记录" is-link url="/pages/logs/logs" size="large"></van-cell>
         <van-cell title="帮助中心" is-link url="/pages/index/index" open-type="switchTab" size="large"></van-cell>
         <button class="cell-button" open-type="contact" plain="true">
             <van-cell title="联系我们" is-link size="large"></van-cell>
         </button>
-        <button class="cell-button" open-type="share" plain="true">
+        <!-- <button class="cell-button" open-type="share" plain="true">
             <van-cell title="分享" is-link size="large"></van-cell>
-        </button>
+        </button> -->
         <van-cell title="关于" is-link bind:click="" size="large"></van-cell>
 
     </view>

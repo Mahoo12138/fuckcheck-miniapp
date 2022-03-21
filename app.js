@@ -28,6 +28,10 @@ App({
                 url: "/pages/index/index",
               });
             },
+            fail: function(res){
+              that.globalData.isLogin = false
+              console.log(res)
+            }
           });
         }
       },
@@ -38,7 +42,7 @@ App({
     });
   },
   globalData: {
-    isLogin: false,
+    isLogin: null,
     num: 0,
     user: {}
   },

@@ -1,0 +1,27 @@
+<!--pages/service/service.wxml-->
+
+<view class="container">
+  <sub-title title="服务信息"></sub-title>
+  <view class="service-container">
+    <view>签到到期时间：{{expireDate}}</view>
+    <view>当前账号容量：{{stu_amount}} </view>
+  </view>
+
+  <sub-title title="使用卡密"></sub-title>
+
+  <view class="input-container">
+    <van-field model:value="{{ value }}" placeholder="请输入卡密" size="large" bind:change="onChange">
+      <van-button slot="button" size="small" type="primary">
+      确认
+    </van-button>
+    </van-field>
+    <!-- <van-button round type="primary" size="large" bind:click="useCard">确认</van-button> -->
+  </view>
+
+  <sub-title title="卡密说明"></sub-title>
+  <view class="service-container">
+    <view>月卡卡密：使用后增加一月的签到期限</view>
+    <view>周卡卡密：使用后增加一周的签到期限</view>
+    <view>账号卡密：使用后增加一个签到账号</view>
+  </view>
+</view>

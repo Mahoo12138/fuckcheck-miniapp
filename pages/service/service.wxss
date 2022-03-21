@@ -1,0 +1,9 @@
+/* pages/service/service.wxss */
+.service-container{
+    line-height: 50rpx;
+    padding: 0 20rpx;
+}
+
+.input-container{
+    padding: 0 20rpx;
+}

@@ -13,7 +13,8 @@ Page({
     ctype: null,
     title: null,
     remark: null,
-    time: null,
+    time: [],
+    current: null,
     type: null,
     typeName: null,
     address: null,
@@ -64,9 +65,9 @@ Page({
         return "信息收集";
     }
   },
-  showTimePicker() {
-    console.log("timePick");
+  showTimePicker({ target }) {
     this.setData({
+      current: target.dataset.index,
       isShowtimePick: true,
     });
   },
@@ -81,9 +82,11 @@ Page({
     });
   },
   handleTimePicker(e) {
+    const { time, current } = this.data;
+    time[time.findIndex((t) => t === current)] = e.detail;
     console.log(e);
     this.setData({
-      time: e.detail,
+      time,
       isShowtimePick: false,
     });
   },
@@ -98,7 +101,11 @@ Page({
       (method = "PUT"), (url = `/task/${id}`);
       message = "更新成功";
     }
-    const cron = timeToCron(time);
+    const cron = time
+      .map((t) => timeToCron(t))
+      .reduce((pre, cur) => pre + "|" + cur);
+    // console.log(cron);
+    // return;
     Toast.loading({
       duration: 0, // 持续展示 toast
       forbidClick: true,
@@ -141,6 +148,23 @@ Page({
       .catch((err) => console.log(err));
   },
 
+  onNumChange({ detail }) {
+    const { time } = this.data;
+    const len =
+      time.length - detail > 0 ? time.length - detail : detail - time.length;
+    if (detail > time.length) {
+      for (let i = 0; i < len; i++) {
+        time.push("06:00");
+      }
+      this.setData({ time });
+    } else {
+      for (let i = 0; i < len; i++) {
+        time.pop();
+      }
+      this.setData({ time });
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -150,12 +174,20 @@ Page({
       Object.keys(options).forEach((key) => {
         options[key] = decodeURIComponent(options[key]);
       });
-      const time = cronToTime(options.cron);
+      if (options.type === "sign") {
+        options.cron = options.cron.split("|");
+      }
+      console.log(options.cron);
+
+      const time = options.cron.map((cron) => {
+        return cronToTime(cron);
+      });
+      console.log(time);
       const typeName = this.handleTaskType(options.type);
       this.setData({
-        time,
         typeName,
         ...options,
+        time,
       });
     } else {
       this.setData({ ...options });

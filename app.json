@@ -27,7 +27,9 @@
         "pages/editTask/edit",
         "pages/editStu/edit",
         "pages/logs/logs",
-        "pages/push/push"
+        "pages/push/push",
+        "pages/service/service",
+        "pages/admin/admin"
     ],
     "window": {
         "backgroundTextStyle": "light",
@@ -35,5 +37,6 @@
         "navigationBarTitleText": "黄同学的小助手",
         "navigationBarTextStyle": "black"
     },
-    "sitemapLocation": "sitemap.json"
+    "sitemapLocation": "sitemap.json",
+    "lazyCodeLoading": "requiredComponents"
 }
