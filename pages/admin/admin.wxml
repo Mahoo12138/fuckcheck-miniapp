@@ -55,10 +55,14 @@
       </view>
     </block>
 
-    <block wx:if="{{over}}">
+    <block wx:if="{{!none && over}}">
       <view class="no-more-container">
         暂无更多...
       </view>
+    </block>
+
+    <block wx:if="{{none}}">
+      <van-empty description="还未生成卡密" />
     </block>
 
   </scroll-view>
@@ -83,7 +87,10 @@
     </view>
     <view slot="title" style="font-size: 40rpx;">添加卡密</view>
   </van-dialog>
+
+  <view class="button-container">
+        <van-button bind:click="showAddCard" type="info" size="large" round block custom-style="padding: 0 200rpx;">生成卡密</van-button>
+    </view>
   <van-toast id="van-toast" />
 
-  <van-toast id="van-toast" />
 </view>

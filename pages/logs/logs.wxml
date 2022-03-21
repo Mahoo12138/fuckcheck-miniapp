@@ -50,7 +50,11 @@
       </view>
     </block>
 
-    <block wx:if="{{over}}">
+    <block wx:if="{{none}}">
+      <van-empty description="还没有任何日志" />
+    </block>
+
+    <block wx:if="{{!none && over}}">
       <view class="no-more-container">
         暂无更多...
       </view>

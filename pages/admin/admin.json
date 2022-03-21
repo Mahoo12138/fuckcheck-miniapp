@@ -14,6 +14,7 @@
     "van-sticky": "@vant/weapp/sticky/index",
     "van-swipe-cell": "@vant/weapp/swipe-cell/index",
     "van-toast": "@vant/weapp/toast/index",
-    "van-loading": "@vant/weapp/loading/index"
+    "van-loading": "@vant/weapp/loading/index",
+    "van-empty": "@vant/weapp/empty/index"
   }
 }

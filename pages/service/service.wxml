@@ -11,11 +11,10 @@
 
   <view class="input-container">
     <van-field model:value="{{ value }}" placeholder="请输入卡密" size="large" bind:change="onChange">
-      <van-button slot="button" size="small" type="primary">
+      <van-button slot="button" size="small" type="primary" bind:click="useCard">
       确认
     </van-button>
     </van-field>
-    <!-- <van-button round type="primary" size="large" bind:click="useCard">确认</van-button> -->
   </view>
 
   <sub-title title="卡密说明"></sub-title>
@@ -24,4 +23,6 @@
     <view>周卡卡密：使用后增加一周的签到期限</view>
     <view>账号卡密：使用后增加一个签到账号</view>
   </view>
+
+  <van-toast id="van-toast" />
 </view>

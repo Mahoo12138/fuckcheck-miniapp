@@ -24,23 +24,31 @@ Page({
     interval: 2500,
     duration: 500,
   },
-  handleManual: throttle(function(){
-      request(`/user/run/${app.globalData.user.id}`,"GET").then(data => {
-        if(data.code){
-          Toast.success({
-            message: "执行成功"
-          })
-        }else{
-          Toast.fail({
-            message: "请勿频繁执行"
-          })
-        }
-      }).catch(err=>{
-        Toast.fail({
-          message: "未知错误，执行失败"
-        })
+  handleManual(){
+    if(this.data.stuid.length === 0){
+      Toast.fail({
+        message: "请先添加账号"
       })
-    }, 2000),
+    }else{
+      throttle(function(){
+        request(`/user/run/${app.globalData.user.id}`,"GET").then(data => {
+          if(data.code){
+            Toast.success({
+              message: "执行成功"
+            })
+          }else{
+            Toast.fail({
+              message: "请勿频繁执行"
+            })
+          }
+        }).catch(err=>{
+          Toast.fail({
+            message: "未知错误，执行失败"
+          })
+        })
+      }, 2000)()
+    }
+  },
   handldAddStuId() {
     const that = this;
     return (action) =>
@@ -65,7 +73,7 @@ Page({
             school,
           }).then((data) => {
             let message = "添加成功";
-            if (data.code === 200) {
+            if (!data.code) {
               setTimeout(() => {
                 that.setData({ username: null, password: null, school: null });
                 that.reFreshData();
@@ -128,6 +136,9 @@ Page({
       "GET"
     ).then(({ data }) => {
       // console.log(data);
+      this.setData({
+        stuid: data
+      })
       return data;
     });
     if (stuid.length !== 0) {

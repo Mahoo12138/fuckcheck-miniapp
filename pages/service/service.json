@@ -2,6 +2,7 @@
   "usingComponents": {
     "sub-title": "../../components/subTitle/subTitle",
     "van-button": "@vant/weapp/button/index",
+    "van-toast": "@vant/weapp/toast/index",
     "van-field": "@vant/weapp/field/index"
   }
 }

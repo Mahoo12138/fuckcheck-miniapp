@@ -15,6 +15,7 @@ Page({
     success: false,
     fail: false,
     loading: false,
+    none: null
   },
 
   onChangeStuid({ detail }) {
@@ -24,6 +25,7 @@ Page({
       success: false,
       fail: false,
       over: false,
+      none: false
     });
     if (detail !== "0") {
       request(`/log?stuid=${detail}&page=${this.data.page}`, "GET").then(
@@ -47,6 +49,7 @@ Page({
           loading: false,
           showingLogs: data,
           otherLogs: data,
+          none: data.length === 0 ? true: false
         });
       }
     );

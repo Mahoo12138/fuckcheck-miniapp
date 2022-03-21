@@ -91,7 +91,7 @@ Page({
 
   getTaskList() {
     let that = this;
-    request(`/task?id=${app.globalData.userID}`, "GET").then(({ data }) => {
+    request(`/task?id=${app.globalData.user.id}`, "GET").then(({ data }) => {
       console.log(data);
       const actions = data.map((task) => {
         task.time = cronToTime(task.cron);

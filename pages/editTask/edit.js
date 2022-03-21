@@ -13,7 +13,7 @@ Page({
     ctype: null,
     title: null,
     remark: null,
-    time: [],
+    time: ["07:00"],
     current: null,
     type: null,
     typeName: null,
@@ -120,7 +120,7 @@ Page({
       cron,
       address,
       type,
-      user: app.globalData.userID,
+      user: app.globalData.user.id,
       stuid: sid,
     })
       .then((data) => {

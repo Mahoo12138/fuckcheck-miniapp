@@ -22,7 +22,9 @@ Page({
     page: 1,
     unused: false,
     used: false,
-    loading: false
+    loading: false,
+    over: false,
+    none: false,
   },
 
   onChangeType({ detail }) {
@@ -91,6 +93,7 @@ Page({
                 loadingType: "spinner",
                 position: "bottom",
               });
+              that.initialData();
               resolve(true);
             })
             .catch((error) => {
@@ -105,17 +108,19 @@ Page({
   },
   initialData(){
     request('/card?page=1', "GET").then(({ data }) => {
+      
       this.setData({
         loading: false,
         showingCards: data,
         otherCards: data,
         allCards: data,
+        none: data.length?false:true
       });
     });
   },
   reFreshData(type) {
     const {page, showingCards} = this.data
-      request(`/card?page=${page}&type=${type}`, "GET").then(({ data }) => {
+      request(`/card?page=${page}&type=${type || ''}`, "GET").then(({ data }) => {
         if(data.length === 0){
           this.setData({
             over: true,
@@ -124,6 +129,7 @@ Page({
         }else{
           this.setData({
             loading: false,
+            none: false,
             showingCards: showingCards.concat(data),
             otherCards: showingCards.concat(data),
           });
@@ -187,8 +193,8 @@ Page({
    */
   onReachBottom: function () {
     console.log("bottom")
-    const {type,page,over} = this.data
-    if(!over){
+    const {type,page,over,none} = this.data
+    if(!over && !none){
       this.setData({
         loading: true,
         page: page + 1 
