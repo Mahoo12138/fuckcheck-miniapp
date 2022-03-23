@@ -1,9 +1,12 @@
 // 获取应用实例
 const app = getApp();
-
+const request = require("../../utils/util").request;
 // pages/splash.js
 Page({
-  data: {},
+  data: {
+    isLogin: null,
+    page: "/pages/index/index",
+  },
   getUserProfile() {
     wx.getUserProfile({
       desc: "获取你的昵称、头像、地区及性别",
@@ -26,16 +29,58 @@ Page({
       },
     });
   },
-
+  retryLogin() {
+    this.setData({
+      isLogin: null,
+    });
+    this.handleLogin();
+  },
+  handleLogin() {
+    const that = this;
+    wx.login({
+      success: (res) => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        console.log(res);
+        if (res.code) {
+          request("/auth/login", "POST", res)
+            .then((data) => {
+              console.log("发送登录请求成功");
+              console.log(data);
+              if (data.user) {
+                app.globalData.user = data.user;
+                wx.setStorageSync("token", data.access_token);
+                wx.switchTab({
+                  url: that.data.page,
+                });
+                return
+              }
+              console.log("登陆失败1");
+              this.setData({
+                isLogin: false,
+              });
+            })
+            .catch((err) => {
+              app.globalData.isLogin = false;
+              console.log(res);
+            });
+        }
+      },
+      fail: (err) => {
+        console.log("登陆失败2");
+        console.log(err);
+      },
+    });
+  },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    if (wx.getUserProfile) {
+  onLoad: function ({ page }) {
+    if (page) {
       this.setData({
-        canIUseGetUserProfile: true,
+        page,
       });
     }
+    this.handleLogin();
   },
 
   /**
@@ -46,8 +91,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  },
+  onShow: function () {},
 
   /**
    * 生命周期函数--监听页面隐藏

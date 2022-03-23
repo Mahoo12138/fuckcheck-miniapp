@@ -24,29 +24,39 @@ Page({
     interval: 2500,
     duration: 500,
   },
-  handleManual(){
-    if(this.data.stuid.length === 0){
+  handleManual() {
+    const that = this;
+    if (that.data.stuid.length === 0) {
       Toast.fail({
-        message: "请先添加账号"
-      })
-    }else{
-      throttle(function(){
-        request(`/user/run/${app.globalData.user.id}`,"GET").then(data => {
-          if(data.code){
-            Toast.success({
-              message: "执行成功"
-            })
-          }else{
-            Toast.fail({
-              message: "请勿频繁执行"
-            })
-          }
-        }).catch(err=>{
-          Toast.fail({
-            message: "未知错误，执行失败"
+        message: "请先添加账号",
+      });
+    } else {
+      throttle(function () {
+        request(`/user/run/${that.data.user.id}`, "GET")
+          .then((data) => {
+            if (!data.code) {
+              Toast.success({
+                message: "执行成功",
+              });
+            } else if (data.code === -1) {
+              Toast({
+                message: data.message,
+                forbidClick: true,
+                loadingType: "spinner",
+                position: "bottom",
+              });
+            } else {
+              Toast.fail({
+                message: "请勿频繁执行",
+              });
+            }
           })
-        })
-      }, 2000)()
+          .catch((err) => {
+            Toast.fail({
+              message: "未知错误，执行失败",
+            });
+          });
+      }, 2000)();
     }
   },
   handldAddStuId() {
@@ -137,14 +147,14 @@ Page({
     ).then(({ data }) => {
       // console.log(data);
       this.setData({
-        stuid: data
-      })
+        stuid: data,
+      });
       return data;
     });
     if (stuid.length !== 0) {
       app.globalData.user.num = stuid.length;
       for (let i of stuid) {
-        console.log(i)
+        console.log(i);
         if (i.stuid) {
           await request(`/log?stuid=${i.id}`, "GET").then(({ data }) => {
             console.log(data);
@@ -172,12 +182,10 @@ Page({
     }
   },
   onLoad() {
-    this.reFreshData();
     let that = this;
+    this.checkLogin();
+    that.reFreshData();
     const nickname = wx.getStorageSync("nickName");
-    that.setData({
-      user: app.globalData.user,
-    });
     if (!nickname) {
       wx.showModal({
         title: "温馨提示",
@@ -218,11 +226,27 @@ Page({
   },
   onReady() {},
   onShow() {
-    let that = this;
     this.getTabBar().init();
     if (wx.getStorageSync("isNeedHomeRefresh")) {
       this.reFreshData();
       wx.removeStorageSync("isNeedHomeRefresh");
+    }
+    if (!this.data.user.id) {
+      this.checkLogin();
+      this.setData({
+        user: app.globalData.user,
+      });
+    }
+  },
+  checkLogin() {
+    if (app.globalData.user) {
+      this.setData({
+        user: app.globalData.user,
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/splash/splash?page=/pages/index/index",
+      });
     }
   },
 });

@@ -19,16 +19,47 @@ Page({
       },
     ],
     tasks: [],
+    hidden: true,
+  },
+  scrollest: function ({detail}) {
+    const that = this;
+    // console.log(detail, wx.getSystemInfoSync().windowHeight)
+    if (detail.scrollTop <= 0) {
+      detail.scrollTop = 0;
+    } else if (detail.scrollTop > wx.getSystemInfoSync().windowHeight) {
+      detail.scrollTop = wx.getSystemInfoSync().windowHeight;
+    }
+    if (
+      detail.scrollTop > this.data.scrollTop ||
+      detail.scrollTop == wx.getSystemInfoSync().windowHeight
+    ) {
+      this.setData({
+        hidden: false,
+      });
+    } else {
+      this.setData({
+        hidden: true,
+      });
+    }
+    setTimeout(function () {
+      that.setData({
+        scrollTop: detail.scrollTop,
+      });
+    }, 0);
   },
   editCard({ detail, target }) {
     let that = this;
     console.log(target);
-    const {stuid, ...task} = this.data.tasks[target.dataset.index]
+    const { stuid, ...task } = this.data.tasks[target.dataset.index];
     if (detail.action.type === "default") {
       const url = qs(task);
-      console.log(stuid)
+      console.log(stuid);
       wx.navigateTo({
-        url: "/pages/editTask/edit?" + url + (stuid===null?"":`&sid=${stuid.id}`) + "&ctype=edit",
+        url:
+          "/pages/editTask/edit?" +
+          url +
+          (stuid === null ? "" : `&sid=${stuid.id}`) +
+          "&ctype=edit",
       });
     } else {
       Dialog.confirm({
@@ -37,7 +68,7 @@ Page({
       })
         .then((res) => {
           console.log("删除成功");
-          request("/task/" + task.id + `?id=${app.globalData.userID}`, "DELETE")
+          request("/task/" + task.id + `?id=${that.data.user.id}`, "DELETE")
             .then((res) => {
               Toast("删除成功");
               that.reFreshData();
@@ -57,21 +88,20 @@ Page({
 
   reFreshData() {
     let that = this;
-    request(`/task?id=${app.globalData.user.id}`, "GET").then(({ data }) => {
+    request(`/task?id=${that.data.user.id}`, "GET").then(({ data }) => {
       console.log(data);
       that.setData({
         tasks: data.map((task) => {
-          task.time = cronToTime(task.cron);
+          task.time = task.cron.split("|").map(cronToTime);
           return task;
         }),
       });
     });
   },
 
-  handleType(){
-    
-  },
+  handleType() {},
   onLoad() {
+    this.checkLogin();
     this.reFreshData();
   },
   onShow() {
@@ -79,6 +109,24 @@ Page({
     if (wx.getStorageSync("isNeedTaskRefresh")) {
       this.reFreshData();
       wx.removeStorageSync("isNeedTaskRefresh");
+    }
+
+    if (!this.data.user.id) {
+      this.checkLogin();
+      this.setData({
+        user: app.globalData.user,
+      });
+    }
+  },
+  checkLogin() {
+    if (app.globalData.user) {
+      this.setData({
+        user: app.globalData.user,
+      });
+    } else {
+      wx.navigateTo({
+        url: "/pages/splash/splash?page=/pages/tasks/tasks",
+      });
     }
   },
 });

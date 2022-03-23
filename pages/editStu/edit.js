@@ -15,7 +15,7 @@ Page({
     sid: null,
     stuid: null,
     password: null,
-    taskid: null,
+    taskid: -1,
     taskname: null,
     taskinfo: null,
     isRun: null,
@@ -23,29 +23,57 @@ Page({
     loading: false,
     isShowTaskSelector: false,
     actions: [],
+    error: {
+      stuid: "",
+      pwd: "",
+      school: ''
+    }
   },
   editStuId() {
+
     let that = this;
+    const { sid, stuid, password, isRun, taskid, school, error } = this.data;
+    if(!sid){
+      Toast.fail("当前错误");
+      setTimeout(()=>{
+        wx.navigateTo({
+          url: '/pages/splash/splash?page=/pages/index/index',
+        })
+      },800)
+      return
+    }
+    if(!stuid || !password || !school){
+      this.setData({error: {
+        stuid: stuid?'':"账号不能为空",
+        pwd: password?'':"账号不能为空",
+        school: school?'':"账号不能为空"
+      }}); 
+      return
+    }
     that.setData({
       loading: true,
     });
-    const { sid, stuid, password, isRun, taskid, school } = this.data;
     request(`/stuid/${sid}?id=${taskid}`, "PUT", {
       stuid,
       password,
       isRun,
       school,
     }).then((res) => {
+      console.log(res);
       that.setData({
         loading: false,
       });
-      Toast.success("修改成功");
-      setTimeout(wx.navigateBack, 1500);
-      wx.setStorageSync("isNeedHomeRefresh", "true");
-      wx.setStorageSync("isNeedTaskRefresh", "true");
+      if (res.code) {
+        Toast.fail("未配置任务");
+      } else {
+        Toast.success("修改成功");
+        setTimeout(wx.navigateBack, 1500);
+        wx.setStorageSync("isNeedHomeRefresh", "true");
+        wx.setStorageSync("isNeedTaskRefresh", "true");
+      }
+
     });
   },
-  gotoTaskPage() {},
   handSelectTask({ detail: task }) {
     this.setData({
       taskid: task.id,
@@ -61,8 +89,8 @@ Page({
     });
   },
   oepnTaskSelector() {
-    const {actions,sid} = this.data
-    console.log(actions)
+    const { actions, sid } = this.data;
+    console.log(actions);
     if (actions && actions.length > 0) {
       this.setData({
         isShowTaskSelector: true,
@@ -75,8 +103,8 @@ Page({
         .then(() => {
           // on confirm
           wx.navigateTo({
-            url: `/pages/editTask/edit?sid=${sid}&ctype=add`
-          })
+            url: `/pages/editTask/edit?sid=${sid}&ctype=add`,
+          });
         })
         .catch(() => {
           // on cancel
@@ -90,8 +118,11 @@ Page({
   },
 
   getTaskList() {
-    let that = this;
-    request(`/task?id=${app.globalData.user.id}`, "GET").then(({ data }) => {
+    let {user} = this.data;
+    if(!user.id){
+      Toast.fail("未登录，获取任务错误");
+    }
+    request(`/task?id=${user.id}`, "GET").then(({ data }) => {
       console.log(data);
       const actions = data.map((task) => {
         task.time = cronToTime(task.cron);
@@ -109,6 +140,7 @@ Page({
    */
   onLoad: function (options) {
     let that = this;
+    this.setData({ user: app.globalData.user });
     const eventChannel = that.getOpenerEventChannel();
     // eventChannel.emit("acceptDataFromOpenedPage", { data: "next page" });
     // eventChannel.emit("someEvent", { data: "next page" });
@@ -123,7 +155,7 @@ Page({
         password,
         isRun,
         school,
-        taskid: task ? task.id : null,
+        taskid: task ? task.id : -1,
         taskname: task ? task.title : null,
         taskinfo: task || null,
       });
@@ -134,9 +166,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-    
-  },
+  onReady: function () {},
 
   /**
    * 生命周期函数--监听页面显示

@@ -92,9 +92,19 @@ Page({
   },
   addTask() {
     let that = this;
-    let { id, type, ctype, title, time, address, sid } = this.data;
+    let { id, type, ctype, title, time, address,user} = this.data;
+    console.log(id)
+    if(ctype !=="add" &&  !id){
+      Toast.fail("当前未登录");
+      setTimeout(()=>{
+        wx.navigateTo({
+          url: '/pages/splash/splash?page=/pages/tasks/tasks',
+        })
+      },800)
+      return
+    }
     if (!title && !time && !address) return;
-    let url = "/task",
+    let url = `/task?id=${user.id}`,
       method = "POST",
       message = "添加成功";
     if (ctype === "edit") {
@@ -120,8 +130,6 @@ Page({
       cron,
       address,
       type,
-      user: app.globalData.user.id,
-      stuid: sid,
     })
       .then((data) => {
         console.log(data);
@@ -174,9 +182,9 @@ Page({
       Object.keys(options).forEach((key) => {
         options[key] = decodeURIComponent(options[key]);
       });
-      if (options.type === "sign") {
-        options.cron = options.cron.split("|");
-      }
+
+      options.cron = options.cron.split("|");
+
       console.log(options.cron);
 
       const time = options.cron.map((cron) => {
@@ -192,6 +200,9 @@ Page({
     } else {
       this.setData({ ...options });
     }
+    this.setData({
+      user: app.globalData.user
+    })
   },
 
   /**

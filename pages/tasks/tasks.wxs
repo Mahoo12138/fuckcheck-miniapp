@@ -1,0 +1,13 @@
+var showTime = function (arr) {
+  var res = ''
+  // console.log(typeof arr)
+  //   for(var i=0;i< arr.length;i++){
+  //     res =+ arr[i]
+  //   }
+    arr = arr.split(',')
+    return res
+};
+
+module.exports = {
+  showTime: showTime,
+};

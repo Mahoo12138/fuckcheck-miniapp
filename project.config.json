@@ -15,8 +15,8 @@
     },
     "setting": {
         "urlCheck": false,
-        "es6": false,
-        "enhance": false,
+        "es6": true,
+        "enhance": true,
         "postcss": true,
         "preloadBackgroundData": false,
         "minified": true,
@@ -57,7 +57,7 @@
         "ignoreUploadUnusedFiles": true
     },
     "compileType": "miniprogram",
-    "libVersion": "2.23.0",
+    "libVersion": "2.23.1",
     "appid": "wx2e0f6aaf8a59eafa",
     "projectname": "fucktoday",
     "debugOptions": {

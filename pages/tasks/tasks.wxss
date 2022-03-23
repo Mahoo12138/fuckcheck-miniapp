@@ -1,6 +1,7 @@
 /* pages/tasks/tasks.wxss */
 .task-container{
-    padding-bottom: 280rpx;
+    /* margin-bottom: 280rpx; */
+    height: 100vh;
 }
 
 .card-container{
@@ -27,5 +28,9 @@
     justify-content: center;
     width: 100%;
     position: fixed;
+    bottom: -200rpx;
+    transition: 0.5s; 
+}
+.show-button {
     bottom: 200rpx;
 }

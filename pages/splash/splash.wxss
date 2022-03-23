@@ -5,3 +5,9 @@
     justify-content: center;
     align-items: center;
 }
+.login-container{
+    padding-top: 200rpx;
+}
+.bottom-button{
+    padding: 0 300rpx;
+}

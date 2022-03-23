@@ -3,21 +3,37 @@
     <view wx:if="{{tasks.length === 0}}">
         <van-empty description="当前未添加任务" />
     </view>
-    <scroll-view wx:else scroll-y="true" class="task-container">
+    <scroll-view wx:else scroll-y="true" bindscroll="scrollest" class="task-container">
         <block wx:for="{{tasks}}" wx:for-item="item" wx:key="id" wx:for-index="index">
             <view class="card-container">
                 <wux-card bind:action="editCard" wux-class="card" title="{{item.title}}" extra="{{item.remark}}" actions="{{ actions }}" data-index="{{ index }}">
                     <view slot="extra">
-                        <block wx:if="{{item.stuid?true:false}}">
-                            <van-tag round type="primary" size="large">{{item.stuid.stuid}}</van-tag>
+                        <block wx:if="{{item.stuid.length > 2}}">
+                            <van-tag round type="warning" size="large">{{item.stuid.length}} 个账户使用</van-tag>
+                        </block>
+                        <block wx:elif="{{item.stuid.length > 0}}">
+                            <block wx:for="{{item.stuid}}" wx:for-item="stu" wx:key="index">
+                                <van-tag style="padding-left: 12rpx;" round type="primary" size="large">{{stu.stuid}}</van-tag>
+                            </block>
                         </block>
                         <block wx:else>
                             <van-tag round type="success" size="large">未使用</van-tag>
                         </block>
                     </view>
+                    <!-- <wxs src="./tasks.wxs" module="utils"></wxs> -->
                     <view slot="body" class="card-content">
                         <view><text style="color: gray;">打卡地址：</text>{{item.address}}</view>
-                        <view><text style="color: gray;">打卡时间：</text>{{item.time}}</view>
+                        <view>
+                            <text style="color: gray;"> 打卡时间：</text>
+                            <block wx:for="{{item.time}}" wx:for-item="i" wx:for-index="index" wx:key="index">
+                                <block wx:if="{{index % 2 === 0}}">
+                                    <text>{{i}}</text>
+                                </block>
+                                <block wx:else>
+                                    <text>/{{i}}</text>
+                                </block>
+                            </block>
+                        </view>
                         <view><text style="color: gray;">打卡类型：</text>{{item.type ==="collect"?"信息收集":"签到、查寝"}}</view>
                     </view>
                     <view slot="footer">在2022年02月04号使用过</view>
@@ -26,7 +42,7 @@
         </block>
     </scroll-view>
 
-    <view class="button-container">
+    <view  class="button-container {{hidden ? 'show-button' : ''}}">
         <van-button bind:click="addTask" type="info" size="large" icon="plus" round block custom-style="padding: 0 60rpx;">添加配置</van-button>
     </view>
     <van-dialog id="van-dialog" message-align="left" />
