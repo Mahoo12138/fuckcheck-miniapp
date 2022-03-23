@@ -63,17 +63,23 @@ Page({
       });
     } else {
       Dialog.confirm({
-        title: `是否删除“${task.title}”?`,
+        title: `是否删除【${task.title}】?`,
         message: `签到地点：${task.address}\n 签到时间：${task.time}`,
       })
         .then((res) => {
-          console.log("删除成功");
-          request("/task/" + task.id + `?id=${that.data.user.id}`, "DELETE")
+          if(stuid.length){
+            Toast({
+              message: "任务使用中，无法删除",
+              position: "bottom"
+            })
+          }else{
+            request("/task/" + task.id + `?id=${that.data.user.id}`, "DELETE")
             .then((res) => {
-              Toast("删除成功");
+              Toast.success("删除成功");
               that.reFreshData();
             })
-            .catch((err) => Toast("删除失败"));
+            .catch((err) => Toast.fail("删除失败"));
+          }
         })
         .catch(() => {
           // on cancel
