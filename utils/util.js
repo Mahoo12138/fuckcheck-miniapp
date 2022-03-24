@@ -20,7 +20,7 @@ const formatNumber = (n) => {
   return n[1] ? n : `0${n}`;
 };
 const subDomain = "/wechat/api";
-const API_BASE_URL = 'https://api.mahoo12138.cn'  // 主域名
+const API_BASE_URL = "https://api.mahoo12138.cn"; // 主域名
 // const API_BASE_URL = "https://192.168.0.101:3000"; // 主域名
 
 const request = (url, method, data) => {
@@ -58,15 +58,28 @@ const qs = function objectToQueryString(obj) {
     .join("&");
 };
 
-const timeToCron = (time) => {
-  const [hou, min] = time.split(":");
+// 06:20 => 0 20 6 * * *
+const timeToCron = (t) => {
+  const [hou, min] = t.split(":");
   return `0 ${min[0] == 0 ? min[1] : min} ${hou[0] == 0 ? hou[1] : hou} * * *`;
 };
-const cronToTime = (cron) => {
-  const [, min, hou] = cron.split(" ");
+// ["06:20","09:00"] => 0 20 6 * * *|0 0 9 * * *
+const timeAToCron = (time) => {
+  console.log(time);
+  if (typeof time !== "object") return;
+  const arr = time.map(timeToCron);
+  return arr.reduce((pre, cur) => pre + "|" + cur);
+};
+// 0 20 6 * * * => 06:20
+const cronToTime = (c) => {
+  const [, min, hou] = c.split(" ");
   return `${hou.length == 1 ? "0" + hou : hou}:${
     min.length == 1 ? "0" + min : min
   }`;
+};
+// 0 20 6 * * *|0 0 9 * * * => ["06:20","09:00"]
+const cronToTimeA = (cron) => {
+  return cron.split("|").map(cronToTime);
 };
 function timeFormatter(value) {
   var da = new Date(
@@ -75,7 +88,7 @@ function timeFormatter(value) {
   return (
     da.getFullYear() +
     "/" +
-    (da.getMonth() + 1 < 10 ? (da.getMonth() + 1) : da.getMonth() + 1) +
+    (da.getMonth() + 1 < 10 ? da.getMonth() + 1 : da.getMonth() + 1) +
     "/" +
     (da.getDate() < 10 ? da.getDate() : da.getDate()) +
     " " +
@@ -87,25 +100,13 @@ function timeFormatter(value) {
   );
 }
 
-
-function throttle(fn, interval) {
-  var enterTime = 0;//触发的时间
-  var gapTime = interval || 500;//间隔时间，如果interval不传，则默认500ms
-  return function () {
-    var context = this;
-    var backTime = new Date();//第一次函数return即触发的时间
-    if (backTime - enterTime > gapTime) {
-      fn.call(context, arguments);
-      enterTime = backTime;//赋值给第一次触发的时间，这样就保存了第二次触发的时间
-    }
-  };
-}
 module.exports = {
   timeFormatter,
+  cronToTimeA,
+  timeAToCron,
   formatTime,
   cronToTime,
   timeToCron,
-  throttle,
   request,
   qs,
 };

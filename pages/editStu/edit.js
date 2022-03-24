@@ -5,7 +5,7 @@ const Dialog = require("../../miniprogram_npm/@vant/weapp/dialog/dialog")
   .default;
 const request = require("../../utils/util").request;
 const qs = require("../../utils/util").qs;
-const cronToTime = require("../../utils/util").cronToTime;
+const cronToTimeA = require("../../utils/util").cronToTimeA;
 
 Page({
   /**
@@ -125,12 +125,13 @@ Page({
     request(`/task?id=${user.id}`, "GET").then(({ data }) => {
       console.log(data);
       const actions = data.map((task) => {
-        task.time = cronToTime(task.cron);
+        task.time = cronToTimeA(task.cron);
         task.name = task.title;
         task.subname = task.address + " " + task.time;
         return task;
       });
-      that.setData({
+      console.log(actions)
+      this.setData({
         actions,
       });
     });

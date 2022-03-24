@@ -4,7 +4,6 @@
 const Dialog = require("../../miniprogram_npm/@vant/weapp/dialog/dialog")
   .default;
 const Toast = require("../../miniprogram_npm/@vant/weapp/toast/toast").default;
-const throttle = require("../../utils/util").throttle;
 
 const request = require("../../utils/util").request;
 // 获取应用实例
@@ -24,40 +23,54 @@ Page({
     interval: 2500,
     duration: 500,
   },
-  handleManual() {
-    const that = this;
-    if (that.data.stuid.length === 0) {
-      Toast.fail({
-        message: "请先添加账号",
-      });
-    } else {
-      throttle(function () {
-        request(`/user/run/${that.data.user.id}`, "GET")
-          .then((data) => {
-            if (!data.code) {
-              Toast.success({
-                message: "执行成功",
-              });
-            } else if (data.code === -1) {
-              Toast({
-                message: data.message,
-                forbidClick: true,
-                loadingType: "spinner",
-                position: "bottom",
-              });
-            } else {
-              Toast.fail({
-                message: "请勿频繁执行",
-              });
-            }
-          })
-          .catch((err) => {
-            Toast.fail({
-              message: "未知错误，执行失败",
-            });
+  throttle(time) {
+    let timeOut = null;
+      return () => {
+        if (this.data.stuid.length === 0) {
+          Toast.fail({
+            message: "请先添加账号",
           });
-      }, 2000)();
-    }
+          return
+        }
+        if (timeOut) {
+          console.log("触发节流, 不执行回调");
+          Toast.loading({
+            duration: 800, // 持续展示 toast
+            forbidClick: true,
+            message: "触发执行中",
+          });
+          clearTimeout(timeOut);
+        }
+        timeOut = setTimeout(() => {
+          this.handleManual();
+        }, time);
+      };
+  },
+  handleManual() {
+    request(`/user/run/${this.data.user.id}`, "GET")
+      .then((data) => {
+        if (data.code === 0) {
+          Toast.success({
+            message: "执行成功",
+          });
+        } else if (data.code === -1) {
+          Toast({
+            message: data.message,
+            forbidClick: true,
+            loadingType: "spinner",
+            position: "bottom",
+          });
+        } else {
+          Toast.fail({
+            message: "请勿频繁执行",
+          });
+        }
+      })
+      .catch((err) => {
+        Toast.fail({
+          message: "未知错误，执行失败",
+        });
+      });
   },
   handldAddStuId() {
     const that = this;
@@ -223,6 +236,7 @@ Page({
         },
       });
     }
+    this.throttle = this.throttle(1000) // 初始化节流函数
   },
   onReady() {},
   onShow() {
@@ -236,10 +250,11 @@ Page({
       this.setData({
         user: app.globalData.user,
       });
+      this.reFreshData();
     }
   },
   checkLogin() {
-    if (app.globalData.user) {
+    if (app.globalData.user.id) {
       this.setData({
         user: app.globalData.user,
       });

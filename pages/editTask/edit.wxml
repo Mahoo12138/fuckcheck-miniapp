@@ -31,7 +31,7 @@
         </van-cell-group>
         <van-popup show="{{ isShowtimePick }}" position="bottom" custom-style="height: 40%" bind:close="onClose">
             <view style="margin-top: 20rpx;">
-                <van-datetime-picker value="{{ current }}" filter="{{ filter }}" item-height="50" title="选择签到时间" type="time" min-hour="6" max-hour="16" bind:confirm="handleTimePicker" bind:cancel="cancelTimePicker" visible-item-count="5" />
+                <van-datetime-picker value="{{ current }}" filter="{{ filter }}" item-height="50" title="选择签到时间" type="time" min-hour="6" max-hour="23" bind:confirm="handleTimePicker" bind:cancel="cancelTimePicker" visible-item-count="5" />
             </view>
         </van-popup>
         <van-action-sheet show="{{ isShowtypePick }}" actions="{{ actions }}" bind:cancel="cancelTypePicker" bind:select="updateTaskType" cancel-text="取消" />

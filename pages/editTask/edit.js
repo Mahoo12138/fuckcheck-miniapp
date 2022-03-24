@@ -2,7 +2,7 @@
 const app = getApp();
 const Toast = require("../../miniprogram_npm/@vant/weapp/toast/toast").default;
 const request = require("../../utils/util").request;
-const { cronToTime, timeToCron } = require("../../utils/util");
+const { cronToTime, timeAToCron } = require("../../utils/util");
 Page({
   /**
    * 页面的初始数据
@@ -111,11 +111,7 @@ Page({
       (method = "PUT"), (url = `/task/${id}`);
       message = "更新成功";
     }
-    const cron = time
-      .map((t) => timeToCron(t))
-      .reduce((pre, cur) => pre + "|" + cur);
-    // console.log(cron);
-    // return;
+    const cron = timeAToCron(time);
     Toast.loading({
       duration: 0, // 持续展示 toast
       forbidClick: true,

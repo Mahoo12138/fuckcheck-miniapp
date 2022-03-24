@@ -35,7 +35,7 @@
   </block>
   <view class="button-container">
     <van-button bind:click="addStuId" type="primary" size="large" icon="plus" round>添加账号</van-button>
-    <van-button bind:click="handleManual" type="info" size="large" icon="guide-o" round>手动提交</van-button>
+    <van-button bind:click="throttle" type="info" size="large" icon="guide-o" round>手动提交</van-button>
   </view>
   <sub-title title="使用说明"></sub-title>
   <view class="tips">

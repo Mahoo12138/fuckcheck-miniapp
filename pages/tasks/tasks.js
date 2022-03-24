@@ -3,7 +3,7 @@ const app = getApp();
 const Dialog = require("../../miniprogram_npm/@vant/weapp/dialog/dialog")
   .default;
 const Toast = require("../../miniprogram_npm/@vant/weapp/toast/toast").default;
-const cronToTime = require("../../utils/util").cronToTime;
+const cronToTimeA = require("../../utils/util").cronToTimeA;
 const request = require("../../utils/util").request;
 const qs = require("../../utils/util").qs;
 Page({
@@ -98,7 +98,7 @@ Page({
       console.log(data);
       that.setData({
         tasks: data.map((task) => {
-          task.time = task.cron.split("|").map(cronToTime);
+          task.time = cronToTimeA(task.cron);
           return task;
         }),
       });
@@ -122,10 +122,11 @@ Page({
       this.setData({
         user: app.globalData.user,
       });
+      this.reFreshData()
     }
   },
   checkLogin() {
-    if (app.globalData.user) {
+    if (app.globalData.user.id) {
       this.setData({
         user: app.globalData.user,
       });

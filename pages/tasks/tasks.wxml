@@ -26,7 +26,7 @@
                         <view>
                             <text style="color: gray;"> 打卡时间：</text>
                             <block wx:for="{{item.time}}" wx:for-item="i" wx:for-index="index" wx:key="index">
-                                <block wx:if="{{index % 2 === 0}}">
+                                <block wx:if="{{index === 0}}">
                                     <text>{{i}}</text>
                                 </block>
                                 <block wx:else>
