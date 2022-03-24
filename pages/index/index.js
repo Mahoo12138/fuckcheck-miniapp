@@ -32,13 +32,13 @@ Page({
           });
           return
         }
+        Toast.loading({
+          duration: 2400, // 持续展示 toast
+          forbidClick: true,
+          message: "触发执行中",
+        });
         if (timeOut) {
           console.log("触发节流, 不执行回调");
-          Toast.loading({
-            duration: 800, // 持续展示 toast
-            forbidClick: true,
-            message: "触发执行中",
-          });
           clearTimeout(timeOut);
         }
         timeOut = setTimeout(() => {
@@ -236,7 +236,7 @@ Page({
         },
       });
     }
-    this.throttle = this.throttle(1000) // 初始化节流函数
+    this.throttle = this.throttle(2800) // 初始化节流函数
   },
   onReady() {},
   onShow() {
