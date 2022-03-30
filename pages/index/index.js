@@ -22,6 +22,18 @@ Page({
     autoplay: true,
     interval: 2500,
     duration: 500,
+    loading: false,
+  },
+  manualRefresh(){
+    this.setData({loading: true})
+    this.reFreshData()
+    setTimeout(()=>{
+      this.setData({loading: false})
+      Toast({
+        message: "数据刷新成功",
+        position: "bottom",
+      });
+    },1000)
   },
   throttle(time) {
     let timeOut = null;

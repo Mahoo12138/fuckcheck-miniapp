@@ -10,7 +10,10 @@
     </block>
   </swiper>
   <van-notify id="custom-selector" />
-  <sub-title title="我的账号"></sub-title>
+  <view class="title-container">
+    <sub-title title="我的账号"/>
+    <view class="refresh-icon {{loading?'icon-spin':''}}"><van-icon bind:click="manualRefresh" name="replay" size="42rpx" /></view>
+    </view>
   <block wx:if="{{stuid.length === 0}}">
     <view class="account-none">还没有添加任何账号呢</view>
   </block>
