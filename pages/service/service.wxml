@@ -24,5 +24,9 @@
     <view>账号卡密：使用后增加一个签到账号</view>
   </view>
 
+  <!-- <view style="text-align: center;">
+        <image style="width: 320rpx; height: 320rpx; " src="../../static/shop.jpg" mode="aspectFit" show-menu-by-longpress/>
+    </view> -->
+
   <van-toast id="van-toast" />
 </view>
