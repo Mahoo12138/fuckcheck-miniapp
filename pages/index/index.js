@@ -276,4 +276,24 @@ Page({
       });
     }
   },
+  onShareAppMessage() {
+    const promise = new Promise(resolve => {
+      setTimeout(() => {
+        resolve({
+          title: '我在使用小程序打卡今日校园！'
+        })
+      }, 2000)
+    })
+    return {
+      title: '我在使用小程序打卡今日校园！',
+      path: '/pages/splash/splash',
+      promise 
+    }
+  },
+  onShareTimeline(){
+    return {
+      title: "小程序每天打卡今日校园",
+      query: `id=${this.data.user.id}`
+    }
+  }
 });

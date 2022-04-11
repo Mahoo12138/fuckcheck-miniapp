@@ -20,8 +20,8 @@ const formatNumber = (n) => {
   return n[1] ? n : `0${n}`;
 };
 const subDomain = "/wechat/api";
-const API_BASE_URL = "https://api.mahoo12138.cn"; // 主域名
-// const API_BASE_URL = "https://192.168.0.101:3000"; // 主域名
+const API_BASE_URL = "https://mahoo12138.cn"; // 主域名
+// const API_BASE_URL = "https://192.168.0.100:3000"; // 主域名
 
 const request = (url, method, data) => {
   let _url = API_BASE_URL + subDomain + url;
