@@ -33,6 +33,7 @@
     <van-action-sheet bind:select="handSelectTask" bind:click-overlay="closeTaskSelector" bind:cancel="closeTaskSelector" cancel-text="取消" show="{{ isShowTaskSelector }}" actions="{{ actions }}" description="选择使用的任务" />
 
     <view class="button-container">
+        <van-button loading="{{loading}}" loading-text="删除中" bind:click="deleteStuId" type="danger" size="large" round block="{{true}}" custom-style="padding: 0 60rpx;margin-bottom: 20rpx;">删除</van-button>
         <van-button loading="{{loading}}" loading-text="添加中" bind:click="editStuId" type="info" size="large" round block="{{true}}" custom-style="padding: 0 60rpx;">提交</van-button>
     </view>
 </view>

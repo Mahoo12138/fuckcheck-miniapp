@@ -257,7 +257,7 @@ Page({
       this.reFreshData();
       wx.removeStorageSync("isNeedHomeRefresh");
     }
-    if (!this.data.user.id) {
+    if (!this.data?.user?.id) {
       this.checkLogin();
       this.setData({
         user: app.globalData.user,

@@ -30,7 +30,6 @@ Page({
     }
   },
   editStuId() {
-
     let that = this;
     const { sid, stuid, password, isRun, taskid, school, error } = this.data;
     if(!sid){
@@ -116,7 +115,25 @@ Page({
       isShowTaskSelector: false,
     });
   },
-
+  deleteStuId(){
+    const { sid, stuid } = this.data;
+    Dialog.confirm({
+        title: "确认删除",
+        message: `是否要删除账号【${stuid}】？`,
+      })
+        .then(() => {
+          // on confirm
+          request(`/stuid/${sid}`, "DELETE").then((data)=>{
+            if(data.code === 0){
+                delayRAR("删除成功")
+            }
+            delayRAR("删除失败")
+          })
+        })
+        .catch(() => {
+          // on cancel
+        });
+  },
   getTaskList() {
     let {user} = this.data;
     if(!user.id){
@@ -135,6 +152,23 @@ Page({
         actions,
       });
     });
+  },
+
+  /**
+   * @description Delay Return And Refresh, 延迟返回并设置刷新原页面 
+   * @param message, the dialog message
+   * @param reslut, the opration result
+   * @param delay, return delay
+   */
+  delayRAR(message, reslut = true ,delay = 1500){
+    if(reslut){
+        Toast.success(message);
+    }else{
+        Toast.fail(message);
+    }
+    setTimeout(wx.navigateBack, delay);
+    wx.setStorageSync("isNeedHomeRefresh", "true");
+    wx.setStorageSync("isNeedTaskRefresh", "true");
   },
   /**
    * 生命周期函数--监听页面加载
