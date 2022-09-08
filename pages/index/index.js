@@ -24,39 +24,47 @@ Page({
     duration: 500,
     loading: false,
   },
-  manualRefresh(){
-    this.setData({loading: true})
-    this.reFreshData()
-    setTimeout(()=>{
-      this.setData({loading: false})
+  manualRefresh() {
+    this.setData({ loading: true });
+    this.reFreshData();
+    setTimeout(() => {
+      this.setData({ loading: false });
       Toast({
         message: "数据刷新成功",
         position: "bottom",
       });
-    },1000)
+    }, 1000);
   },
   throttle(time) {
     let timeOut = null;
-      return () => {
-        if (this.data.stuid.length === 0) {
-          Toast.fail({
-            message: "请先添加账号",
-          });
-          return
-        }
-        Toast.loading({
-          duration: 2400, // 持续展示 toast
-          forbidClick: true,
-          message: "触发执行中",
+    return () => {
+      if (this.data.stuid.length === 0) {
+        Toast.fail({
+          message: "请先添加账号",
         });
-        if (timeOut) {
-          console.log("触发节流, 不执行回调");
-          clearTimeout(timeOut);
-        }
-        timeOut = setTimeout(() => {
-          this.handleManual();
-        }, time);
-      };
+        return;
+      }
+      const isNoTask = this.data.stuid.every((stu) => (stu.isRun === false));
+      if (isNoTask) {
+        Toast({
+          message: "当前用户无运行中的任务",
+          position: "bottom",
+        });
+        return;
+      }
+      Toast.loading({
+        duration: 2400, // 持续展示 toast
+        forbidClick: true,
+        message: "触发执行中",
+      });
+      if (timeOut) {
+        console.log("触发节流, 不执行回调");
+        clearTimeout(timeOut);
+      }
+      timeOut = setTimeout(() => {
+        this.handleManual();
+      }, time);
+    };
   },
   handleManual() {
     request(`/user/run/${this.data.user.id}`, "GET")
@@ -248,7 +256,7 @@ Page({
         },
       });
     }
-    this.throttle = this.throttle(2800) // 初始化节流函数
+    this.throttle = this.throttle(2800); // 初始化节流函数
   },
   onReady() {},
   onShow() {
@@ -277,23 +285,23 @@ Page({
     }
   },
   onShareAppMessage() {
-    const promise = new Promise(resolve => {
+    const promise = new Promise((resolve) => {
       setTimeout(() => {
         resolve({
-          title: '我在使用小程序打卡今日校园！'
-        })
-      }, 2000)
-    })
+          title: "我在使用小程序打卡今日校园！",
+        });
+      }, 2000);
+    });
     return {
-      title: '我在使用小程序打卡今日校园！',
-      path: '/pages/splash/splash',
-      promise 
-    }
+      title: "我在使用小程序打卡今日校园！",
+      path: "/pages/splash/splash",
+      promise,
+    };
   },
-  onShareTimeline(){
+  onShareTimeline() {
     return {
       title: "小程序每天打卡今日校园",
-      query: `id=${this.data.user.id}`
-    }
-  }
+      query: `id=${this.data.user.id}`,
+    };
+  },
 });
