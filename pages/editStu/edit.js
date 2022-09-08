@@ -20,7 +20,8 @@ Page({
     taskinfo: null,
     isRun: null,
     school: null,
-    loading: false,
+    delLoading: false,
+    addLoading: false,
     isShowTaskSelector: false,
     actions: [],
     error: {
@@ -125,9 +126,9 @@ Page({
           // on confirm
           request(`/stuid/${sid}`, "DELETE").then((data)=>{
             if(data.code === 0){
-                delayRAR("删除成功")
+                this.delayRAR("删除成功")
             }
-            delayRAR("删除失败")
+            this.delayRAR("删除失败")
           })
         })
         .catch(() => {
