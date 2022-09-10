@@ -36,7 +36,7 @@ Page({
     }, 1000);
   },
   throttle(time) {
-    let timeOut = null;
+    let timeOut = false;
     return () => {
       if (this.data.stuid.length === 0) {
         Toast.fail({
@@ -44,7 +44,7 @@ Page({
         });
         return;
       }
-      const isNoTask = this.data.stuid.every((stu) => (stu.isRun === false));
+      const isNoTask = this.data.stuid.every((stu) => stu.isRun === false);
       if (isNoTask) {
         Toast({
           message: "当前用户无运行中的任务",
@@ -52,18 +52,25 @@ Page({
         });
         return;
       }
+      if (timeOut) {
+        console.log("触发节流, 不执行回调");
+        Toast.fail({
+            message: "请勿频繁执行",
+          });
+        return;
+      }
       Toast.loading({
-        duration: 2400, // 持续展示 toast
+        duration: 1800, // 持续展示 toast
         forbidClick: true,
         message: "触发执行中",
       });
-      if (timeOut) {
-        console.log("触发节流, 不执行回调");
-        clearTimeout(timeOut);
-      }
-      timeOut = setTimeout(() => {
+      setTimeout(() => {
+        timeOut = true;
         this.handleManual();
-      }, time);
+        setTimeout(() => {
+          timeOut = false;
+        }, time);
+      }, 500);
     };
   },
   handleManual() {
@@ -256,7 +263,7 @@ Page({
         },
       });
     }
-    this.throttle = this.throttle(2800); // 初始化节流函数
+    this.throttle = this.throttle(15000); // 初始化节流函数
   },
   onReady() {},
   onShow() {

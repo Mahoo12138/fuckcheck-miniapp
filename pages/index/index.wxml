@@ -1,66 +1,68 @@
 <!--index.wxml-->
 <scroll-view scroll-y="true" class="container">
-  <swiper indicator-dots="{{indicatorDots}}" class="banner" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-    <block wx:for="{{background}}" wx:key="*this">
-      <swiper-item>
-        <view class="banner-item">
-          <view>{{item}}招租</view>
+    <swiper indicator-dots="{{indicatorDots}}" class="banner" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+        <block wx:for="{{background}}" wx:key="*this">
+            <swiper-item>
+                <view class="banner-item">
+                    <view>{{item}}招租</view>
+                </view>
+            </swiper-item>
+        </block>
+    </swiper>
+    <van-notify id="custom-selector" />
+    <view class="title-container">
+        <sub-title title="我的账号" />
+        <view class="refresh-icon {{loading?'icon-spin':''}}">
+            <van-icon bind:click="manualRefresh" name="replay" size="42rpx" />
         </view>
-      </swiper-item>
-    </block>
-  </swiper>
-  <van-notify id="custom-selector" />
-  <view class="title-container">
-    <sub-title title="我的账号"/>
-    <view class="refresh-icon {{loading?'icon-spin':''}}"><van-icon bind:click="manualRefresh" name="replay" size="42rpx" /></view>
     </view>
-  <block wx:if="{{stuid.length === 0}}">
-    <view class="account-none">还没有添加任何账号呢</view>
-  </block>
-  <block wx:else>
-    <block wx:for="{{stuid}}" wx:for-item="item" wx:key="id" wx:for-index="index">
-      <van-cell size="large" bind:click="editStuId" title-width="370rpx" data-index="{{index}}" is-link arrow-direction="">
-        {{item.task.title ?item.task.title:"暂未配置"}}
-        <view slot="title" class="list-title">
-          账号：{{item.stuid}}
-          <block wx:if="{{item.status===true}}">
-            <van-tag type="success" size="middle">成功</van-tag>
-          </block>
-          <block wx:elif="{{item.status===false}}">
-            <van-tag type="danger" size="middle">失败</van-tag>
-          </block>
-          <block wx:else>
-            <van-tag type="primary" size="middle">未运行</van-tag>
-          </block>
-        </view>
-      </van-cell>
+    <block wx:if="{{stuid.length === 0}}">
+        <view class="account-none">还没有添加任何账号呢</view>
     </block>
-  </block>
-  <view class="button-container">
-    <van-button bind:click="addStuId" type="primary" size="large" icon="plus" round>添加账号</van-button>
-    <van-button bind:click="throttle" type="info" size="large" icon="guide-o" round>手动提交</van-button>
-  </view>
-  <sub-title title="使用说明"></sub-title>
-  <view class="tips">
-    添加账号前，需要在原APP内设置密码，可选择找回密码；若已设置则直接选择任务，可以对不同任务指定不同地点，若出现问题，请及时联系开发者！
-  </view>
-  <van-dialog id="van-dialog" use-slot show-cancel-button>
-    <view class="form-container">
-      <van-field error-message="{{error.username}}" type="number" model:value="{{ username }}" required placeholder="请输入用户名" title-width="100rpx" placeholder-style="font-size: 32rpx;" border="{{ false }}">
-        <text slot="label" class="field-style">账号：</text>
-      </van-field>
+    <block wx:else>
+        <block wx:for="{{stuid}}" wx:for-item="item" wx:key="id" wx:for-index="index">
+            <van-cell size="large" bind:click="editStuId" title-width="370rpx" data-index="{{index}}" is-link arrow-direction="">
+                {{item.tasks ? item.tasks.length + "个任务" : "无任务"}}
+                <view slot="title" class="list-title">
+                    账号：{{item.stuid}}
+                    <block wx:if="{{item.status===true}}">
+                        <van-tag type="success" size="middle">成功</van-tag>
+                    </block>
+                    <block wx:elif="{{item.status===false}}">
+                        <van-tag type="danger" size="middle">失败</van-tag>
+                    </block>
+                    <block wx:else>
+                        <van-tag type="primary" size="middle">未运行</van-tag>
+                    </block>
+                </view>
+            </van-cell>
+        </block>
+    </block>
+    <view class="button-container">
+        <van-button bind:click="addStuId" type="primary" size="large" icon="plus" round>添加账号</van-button>
+        <van-button bind:click="throttle" type="info" size="large" icon="guide-o" round>手动提交</van-button>
+    </view>
+    <sub-title title="使用说明"></sub-title>
+    <view class="tips">
+        添加账号前，需要在原APP内设置密码，可选择找回密码；若已设置则直接选择任务，可以对不同任务指定不同地点，若出现问题，请及时联系开发者！
+    </view>
+    <van-dialog id="van-dialog" use-slot show-cancel-button>
+        <view class="form-container">
+            <van-field error-message="{{error.username}}" type="number" model:value="{{ username }}" required placeholder="请输入用户名" title-width="100rpx" placeholder-style="font-size: 32rpx;" border="{{ false }}">
+                <text slot="label" class="field-style">账号：</text>
+            </van-field>
 
-      <van-field error-message="{{error.password}}" model:value="{{ password }}" type="password" title-width="100rpx" clearable placeholder="请输入密码" required border="{{ false }}" placeholder-style="font-size: 32rpx;" bind:click-icon="passwdTips">
-        <text slot="label" class="field-style">密码：</text>
-        <!-- <view slot="right-icon">
+            <van-field error-message="{{error.password}}" model:value="{{ password }}" type="password" title-width="100rpx" clearable placeholder="请输入密码" required border="{{ false }}" placeholder-style="font-size: 32rpx;" bind:click-icon="passwdTips">
+                <text slot="label" class="field-style">密码：</text>
+                <!-- <view slot="right-icon">
         <van-icon name="question-o" size="36rpx" custom-style="line-height:32rpx"/></view> -->
-      </van-field>
+            </van-field>
 
-      <van-field error-message="{{error.school}}" type="text" model:value="{{ school }}" required placeholder="请输入学校" title-width="100rpx" placeholder-style="font-size: 32rpx;" border="{{ false }}">
-        <text slot="label" class="field-style">学校：</text>
-      </van-field>
-    </view>
-  </van-dialog>
+            <van-field error-message="{{error.school}}" type="text" model:value="{{ school }}" required placeholder="请输入学校" title-width="100rpx" placeholder-style="font-size: 32rpx;" border="{{ false }}">
+                <text slot="label" class="field-style">学校：</text>
+            </van-field>
+        </view>
+    </van-dialog>
 
-  <van-toast id="van-toast" />
+    <van-toast id="van-toast" />
 </scroll-view>
