@@ -1,4 +1,11 @@
 /* pages/admin/admin.wxss */
+.check-container{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 70% 70%;
+    margin-bottom: 16rpx;
+}
 .button-container{
     display: flex;
     flex-direction: row;

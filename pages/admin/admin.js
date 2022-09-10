@@ -8,24 +8,25 @@ Page({
   data: {
     count: 1,
     amount: 1,
-    otherCards: [],
     allCards: [],
-    showingCards: [],
+    otherCards: [],     // 筛选数据的载体
+    showingCards: [],   // 当前数据的显示载体
     isShowAddCard: false,
     cardKind: ["MONTH"],
-    option: [
-      { text: "全部卡密", value: "ALL" },
-      { text: "月卡卡密", value: "MONTH" },
-      { text: "周卡卡密", value: "WEEK" },
-      { text: "账号卡密", value: "ACCOUNT" },
-    ],
     type: "ALL",
     page: 1,
     unused: false,
     used: false,
     loading: false,
-    over: false,
-    none: false,
+    over: false,    // 已记载所有日志标记
+    none: false,    // 没有日志标志
+    option: [
+        { text: "全部卡密", value: "ALL" },
+        { text: "月卡卡密", value: "MONTH" },
+        { text: "周卡卡密", value: "WEEK" },
+        { text: "日卡卡密", value: "DAY" },
+        { text: "账号卡密", value: "ACCOUNT" },
+      ],
   },
 
   onChangeType({ detail }) {
@@ -122,6 +123,7 @@ Page({
   },
   initialData() {
     request("/card?page=1", "GET").then(({ data }) => {
+    // 初始拉取一页所有卡密
       this.setData({
         loading: false,
         showingCards: data,
@@ -131,7 +133,7 @@ Page({
       });
     });
   },
-  reFreshData(type) {
+  grabNextData(type) {
     const { page, showingCards } = this.data;
     request(`/card?page=${page}&type=${type || ""}`, "GET").then(({ data }) => {
       if (data.length === 0) {
@@ -147,6 +149,18 @@ Page({
           otherCards: showingCards.concat(data),
         });
       }
+    });
+  },
+  refreshData(type) {
+    request(`/card?page=1&type=${type || ""}`, "GET").then(({ data }) => {
+      this.setData({
+        over: false,
+        loading: false,
+        none: false,
+        showingCards: data,
+        otherCards: data,
+        page: 1
+      });
     });
   },
   onUsedChange({ detail }) {
@@ -180,11 +194,11 @@ Page({
       });
     }
   },
-
   handleDeleteCard({ target }) {
     const { id } = target.dataset;
+    const { type } = this.data;
     request(`/card/${id}`, "DELETE").then((data) => {
-      console.log(data);
+      this.refreshData(type);
     });
   },
   onCopyText({ target }) {
@@ -212,7 +226,7 @@ Page({
         loading: true,
         page: page + 1,
       });
-      this.reFreshData(type === "ALL" ? "" : type);
+      this.grabNextData(type === "ALL" ? "" : type);
     }
   },
   /**

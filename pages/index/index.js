@@ -55,8 +55,8 @@ Page({
       if (timeOut) {
         console.log("触发节流, 不执行回调");
         Toast.fail({
-            message: "请勿频繁执行",
-          });
+          message: "请勿频繁执行",
+        });
         return;
       }
       Toast.loading({
