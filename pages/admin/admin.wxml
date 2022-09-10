@@ -28,7 +28,7 @@
     <van-cell-group inset>
       <block wx:for="{{showingCards}}" wx:for-item="item" wx:key="id" wx:for-index="index">
         <van-swipe-cell right-width="{{ 120 }}">
-          <van-cell border="{{false}}" size="large" title-width="400rpx" value="{{utils.typeToName(item.type)}}">
+          <van-cell border="{{false}}" size="large" title-width="400rpx" value="{{utils.typeToName(item.type)}} - {{item.count}}">
             <view slot="title">
               {{item.value}}
               <block wx:if="{{item.status === true}}">
@@ -70,14 +70,22 @@
 
   <van-dialog id="van-dialog" use-title-slot use-slot show-cancel-button>
     <view class="form-container">
-      <view class="sub-title">账号</view>
-      <view style="padding-bottom: 30rpx;">
+      <view class="sub-title">卡密类型</view>
+      <view style="padding-bottom: 40rpx;">
         <van-checkbox-group direction="horizontal" value="{{ cardKind }}" bind:change="onSelectChange">
           <van-checkbox name="MONTH">月卡</van-checkbox>
           <van-checkbox name="WEEK">周卡</van-checkbox>
           <van-checkbox name="ACCOUNT">账号卡</van-checkbox>
         </van-checkbox-group>
       </view>
+
+      <view class="sub-title">卡密数值</view>
+      <view slot="input" class="slider-container">
+        <van-slider min="1" max="10" bar-height="10rpx" value="{{count}}" use-button-slot bind:change="onCountChange">
+          <van-tag size="large" round type="primary" slot="button">{{count}}</van-tag>
+        </van-slider>
+      </view>
+
       <view class="sub-title">生成数量</view>
       <view slot="input" class="slider-container">
         <van-slider min="1" max="10" bar-height="10rpx" value="{{amount}}" use-button-slot bind:change="onAmountChange">

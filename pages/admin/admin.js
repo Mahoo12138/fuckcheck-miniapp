@@ -6,6 +6,7 @@ const request = require("../../utils/util").request;
 const Toast = require("../../miniprogram_npm/@vant/weapp/toast/toast").default;
 Page({
   data: {
+    count: 1,
     amount: 1,
     otherCards: [],
     allCards: [],
@@ -31,7 +32,7 @@ Page({
     this.setData({
       type: detail,
       page: 1,
-      over: false
+      over: false,
     });
     if (detail !== "ALL") {
       request(`/card?type=${detail}&page=${this.data.page}`, "GET").then(
@@ -53,6 +54,11 @@ Page({
       cardKind: e.detail,
     });
   },
+  onCountChange(e) {
+    this.setData({
+      count: e.detail,
+    });
+  },
   onAmountChange(e) {
     console.log(e);
     this.setData({
@@ -71,13 +77,21 @@ Page({
     const that = this;
     return (action) =>
       new Promise((resolve) => {
+        if (that.data.cardKind.length === 0) {
+          Toast.fail({
+            message: "选择卡密类型",
+          });
+          resolve(false);
+          return;
+        }
         if (action === "confirm") {
-          const { cardKind, amount } = that.data;
+          const { cardKind, amount, count } = that.data;
           Promise.all(
             cardKind.map((type) => {
               return request(`/card`, "POST", {
                 amount,
                 type,
+                count,
               });
             })
           )
@@ -97,7 +111,7 @@ Page({
               resolve(true);
             })
             .catch((error) => {
-              console.log("增加卡密",error);
+              console.log("增加卡密", error);
               // error.map((s) => console.log(s));
               resolve(false);
             });
@@ -106,35 +120,34 @@ Page({
         }
       });
   },
-  initialData(){
-    request('/card?page=1', "GET").then(({ data }) => {
-      
+  initialData() {
+    request("/card?page=1", "GET").then(({ data }) => {
       this.setData({
         loading: false,
         showingCards: data,
         otherCards: data,
         allCards: data,
-        none: data.length?false:true
+        none: data.length ? false : true,
       });
     });
   },
   reFreshData(type) {
-    const {page, showingCards} = this.data
-      request(`/card?page=${page}&type=${type || ''}`, "GET").then(({ data }) => {
-        if(data.length === 0){
-          this.setData({
-            over: true,
-            loading: false
-          })
-        }else{
-          this.setData({
-            loading: false,
-            none: false,
-            showingCards: showingCards.concat(data),
-            otherCards: showingCards.concat(data),
-          });
-        }
-      });
+    const { page, showingCards } = this.data;
+    request(`/card?page=${page}&type=${type || ""}`, "GET").then(({ data }) => {
+      if (data.length === 0) {
+        this.setData({
+          over: true,
+          loading: false,
+        });
+      } else {
+        this.setData({
+          loading: false,
+          none: false,
+          showingCards: showingCards.concat(data),
+          otherCards: showingCards.concat(data),
+        });
+      }
+    });
   },
   onUsedChange({ detail }) {
     this.setData({ used: detail });
@@ -188,18 +201,18 @@ Page({
       },
     });
   },
-    /**
+  /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    console.log("bottom")
-    const {type,page,over,none} = this.data
-    if(!over && !none){
+    console.log("bottom");
+    const { type, page, over, none } = this.data;
+    if (!over && !none) {
       this.setData({
         loading: true,
-        page: page + 1 
-      })
-      this.reFreshData(type==="ALL"?'':type)
+        page: page + 1,
+      });
+      this.reFreshData(type === "ALL" ? "" : type);
     }
   },
   /**
@@ -229,8 +242,6 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {},
-
-
 
   /**
    * 用户点击右上角分享
