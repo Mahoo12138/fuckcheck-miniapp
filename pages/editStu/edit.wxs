@@ -1,0 +1,9 @@
+var typeToName = function (type) {
+    if(type === 'sign') return "签到任务"
+    else if(type === 'attendance') return "查寝任务"
+    else return "信息收集"
+};
+
+module.exports = {
+  typeToName: typeToName,
+};

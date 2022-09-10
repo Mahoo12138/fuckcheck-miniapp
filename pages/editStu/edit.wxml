@@ -1,7 +1,7 @@
 <!--pages/editTask/edit.wxml-->
 <view class="container edit-container">
     <van-toast id="van-toast" />
-    <scroll-view>
+    <view>
         <sub-title title="编辑账号信息" />
         <van-cell-group>
             <van-field label="账号" error-message="{{error.stuid}}" type="text" model:value="{{ stuid }}" required placeholder="请输入账号" title-width="150rpx" size="large" border="{{ false }}">
@@ -15,25 +15,47 @@
         </van-cell-group>
 
         <van-cell-group>
-            <van-field bind:click-icon="gotoTaskPage" bind:click-input="oepnTaskSelector" label="任务配置"  type="text" model:value="{{ taskname }}" required readonly title-width="150rpx" size="large" border="{{ false }}">
-                <view slot="right-icon">
-                    <van-icon name="edit" />
-                </view>
-            </van-field>
-
             <van-field label="运行开关" title-width="150rpx" size="large" border="{{ false }}">
                 <view slot="input" style="padding-top: 12rpx;">
                     <van-switch bind:change="handleCheck" checked="{{ isRun }}" size="38rpx" active-color="#07c160" inactive-color="#ee0a24" />
                 </view>
             </van-field>
+            <!-- <van-field bind:click-icon="gotoTaskPage" bind:click-input="oepnTaskSelector" label="任务配置"  type="text" model:value="{{ taskname }}" required readonly title-width="150rpx" size="large" border="{{ false }}">
+                <view slot="right-icon">
+                    <van-icon name="edit" />
+                </view>
+            </van-field> -->
         </van-cell-group>
+        <sub-title title="任务配置" />
+        <wxs src="./edit.wxs" module="utils"></wxs>
+        <scroll-view scroll-y="true" style="height: 420rpx;">
+            <view wx:if="{{actions.length === 0}}" class="empty-container">
+                <text style="font-size: 40rpx; padding-bottom: 30rpx; color: gray;">当前没有可配置的任务</text>
+                <van-button bind:click="gotoTaskPage" round type="primary" custom-style="padding: 0 120rpx;">去添加</van-button>
+            </view>
+            <view wx:else>
+                <van-checkbox-group value="{{ taskList }}" bind:change="onTasksChange">
+                    <van-cell-group>
+                        <block wx:for="{{actions}}" wx:for-item="item" wx:key="id" wx:for-index="index">
+                            <van-cell size="large" clickable data-taskid="{{item.id}}" bind:click="handleChooseTask">
+                                <van-checkbox slot="right-icon" name="{{item.id}}" />
+                                <view slot="title">
+                                    <van-tag size="medium" type="primary">{{utils.typeToName(item.type)}}</van-tag>
+                                    {{item.name}} - {{item.address}}
+                                </view>
+                            </van-cell>
+                        </block>
+                    </van-cell-group>
+                </van-checkbox-group>
+            </view>
+        </scroll-view>
 
-    </scroll-view>
+    </view>
     <van-dialog id="van-dialog" />
     <van-action-sheet bind:select="handSelectTask" bind:click-overlay="closeTaskSelector" bind:cancel="closeTaskSelector" cancel-text="取消" show="{{ isShowTaskSelector }}" actions="{{ actions }}" description="选择使用的任务" />
 
     <view class="button-container">
-        <van-button loading="{{delLoading}}" loading-text="删除中" bind:click="deleteStuId" type="danger" size="large" round block="{{true}}" custom-style="padding: 0 60rpx;margin-bottom: 20rpx;">删除</van-button>
-        <van-button loading="{{addLoading}}" loading-text="添加中" bind:click="editStuId" type="info" size="large" round block="{{true}}" custom-style="padding: 0 60rpx;">提交</van-button>
+        <van-button loading="{{delLoading}}" loading-text="删除中" bind:click="deleteStuId" type="danger" round custom-style="padding: 0 120rpx;">删除</van-button>
+        <van-button loading="{{addLoading}}" loading-text="添加中" bind:click="editStuId" type="info" round custom-style="padding: 0 120rpx;">提交</van-button>
     </view>
 </view>

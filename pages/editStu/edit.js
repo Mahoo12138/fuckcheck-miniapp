@@ -4,7 +4,6 @@ const Toast = require("../../miniprogram_npm/@vant/weapp/toast/toast").default;
 const Dialog = require("../../miniprogram_npm/@vant/weapp/dialog/dialog")
   .default;
 const request = require("../../utils/util").request;
-const qs = require("../../utils/util").qs;
 const cronToTimeA = require("../../utils/util").cronToTimeA;
 
 Page({
@@ -16,48 +15,50 @@ Page({
     stuid: null,
     password: null,
     taskid: -1,
-    taskname: null,
-    taskinfo: null,
     isRun: null,
     school: null,
     delLoading: false,
     addLoading: false,
     isShowTaskSelector: false,
     actions: [],
+    taskList: [],
     error: {
       stuid: "",
       pwd: "",
-      school: ''
-    }
+      school: "",
+    },
   },
   editStuId() {
     let that = this;
-    const { sid, stuid, password, isRun, taskid, school, error } = this.data;
-    if(!sid){
+    const { sid, stuid, password, isRun, taskList, school, error } = this.data;
+    if (!sid) {
       Toast.fail("当前错误");
-      setTimeout(()=>{
+      setTimeout(() => {
         wx.navigateTo({
-          url: '/pages/splash/splash?page=/pages/index/index',
-        })
-      },800)
-      return
+          url: "/pages/splash/splash?page=/pages/index/index",
+        });
+      }, 800);
+      return;
     }
-    if(!stuid || !password || !school){
-      this.setData({error: {
-        stuid: stuid?'':"账号不能为空",
-        pwd: password?'':"账号不能为空",
-        school: school?'':"账号不能为空"
-      }}); 
-      return
+    if (!stuid || !password || !school) {
+      this.setData({
+        error: {
+          stuid: stuid ? "" : "账号不能为空",
+          pwd: password ? "" : "账号不能为空",
+          school: school ? "" : "账号不能为空",
+        },
+      });
+      return;
     }
     that.setData({
       loading: true,
     });
-    request(`/stuid/${sid}?id=${taskid}`, "PUT", {
+    request(`/stuid/${sid}`, "PUT", {
       stuid,
       password,
       isRun,
       school,
+      tasks: taskList
     }).then((res) => {
       console.log(res);
       that.setData({
@@ -71,7 +72,6 @@ Page({
         wx.setStorageSync("isNeedHomeRefresh", "true");
         wx.setStorageSync("isNeedTaskRefresh", "true");
       }
-
     });
   },
   handSelectTask({ detail: task }) {
@@ -116,28 +116,43 @@ Page({
       isShowTaskSelector: false,
     });
   },
-  deleteStuId(){
+  //   handleChooseTask({
+  //     currentTarget: {
+  //       dataset: { taskid },
+  //     },
+  //   }) {
+  //     const { taskList } = this.data;
+  //     this.setData({
+  //       taskList: [...taskList, taskid + ""],
+  //     });
+  //   },
+  onTasksChange(event) {
+    this.setData({
+      taskList: event.detail,
+    });
+  },
+  deleteStuId() {
     const { sid, stuid } = this.data;
     Dialog.confirm({
-        title: "确认删除",
-        message: `是否要删除账号【${stuid}】？`,
-      })
-        .then(() => {
-          // on confirm
-          request(`/stuid/${sid}`, "DELETE").then((data)=>{
-            if(data.code === 0){
-                this.delayRAR("删除成功")
-            }
-            this.delayRAR("删除失败")
-          })
-        })
-        .catch(() => {
-          // on cancel
+      title: "确认删除",
+      message: `是否要删除账号【${stuid}】？`,
+    })
+      .then(() => {
+        // on confirm
+        request(`/stuid/${sid}`, "DELETE").then((data) => {
+          if (data.code === 0) {
+            this.delayRAR("删除成功");
+          }
+          this.delayRAR("删除失败");
         });
+      })
+      .catch(() => {
+        // on cancel
+      });
   },
   getTaskList() {
-    let {user} = this.data;
-    if(!user.id){
+    let { user } = this.data;
+    if (!user.id) {
       Toast.fail("未登录，获取任务错误");
     }
     request(`/task?id=${user.id}`, "GET").then(({ data }) => {
@@ -148,7 +163,7 @@ Page({
         task.subname = task.address + " " + task.time;
         return task;
       });
-      console.log(actions)
+      console.log(actions);
       this.setData({
         actions,
       });
@@ -156,20 +171,26 @@ Page({
   },
 
   /**
-   * @description Delay Return And Refresh, 延迟返回并设置刷新原页面 
+   * @description Delay Return And Refresh, 延迟返回并设置刷新原页面
    * @param message, the dialog message
    * @param reslut, the opration result
    * @param delay, return delay
    */
-  delayRAR(message, reslut = true ,delay = 1500){
-    if(reslut){
-        Toast.success(message);
-    }else{
-        Toast.fail(message);
+  delayRAR(message, reslut = true, delay = 1500) {
+    if (reslut) {
+      Toast.success(message);
+    } else {
+      Toast.fail(message);
     }
     setTimeout(wx.navigateBack, delay);
     wx.setStorageSync("isNeedHomeRefresh", "true");
     wx.setStorageSync("isNeedTaskRefresh", "true");
+  },
+
+  gotoTaskPage() {
+    wx.navigateTo({
+      url: "/pages/editTask/edit?ctype=add",
+    });
   },
   /**
    * 生命周期函数--监听页面加载
@@ -182,18 +203,15 @@ Page({
     // eventChannel.emit("someEvent", { data: "next page" });
     // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
     eventChannel.on("acceptDataFromOpenerPage", function (data) {
-      const { stuid, password, isRun, id: sid, task, school } = data;
-      if (task) {
-      }
+      const { stuid, password, isRun, id: sid, tasks, school } = data;
+      const taskList = tasks.map((t) => t.id + "");
       that.setData({
         sid,
         stuid,
         password,
         isRun,
         school,
-        taskid: task ? task.id : -1,
-        taskname: task ? task.title : null,
-        taskinfo: task || null,
+        taskList,
       });
     });
     this.getTaskList();

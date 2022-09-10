@@ -1,6 +1,17 @@
 /* pages/edit/edit.wxss */
-
+.edit-container{
+    padding-bottom: 0rpx;
+    overflow: hidden;
+}
+.empty-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 180rpx;
+}
 .button-container{
+    display: flex;
+    justify-content: space-evenly;
     position: fixed;
     left:20rpx;
     right:20rpx;
