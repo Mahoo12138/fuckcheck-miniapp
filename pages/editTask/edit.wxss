@@ -9,6 +9,12 @@
     bottom: 20rpx;
     z-index: 99;
 }
+.button-child-container{
+    display: flex;
+    width: 100%;
+    margin-bottom: 20rpx;
+    justify-content: space-between;
+}
 
 .slider-container{
     width: 600rpx;

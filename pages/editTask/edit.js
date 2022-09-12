@@ -2,6 +2,7 @@
 const app = getApp();
 const Toast = require("../../miniprogram_npm/@vant/weapp/toast/toast").default;
 const request = require("../../utils/util").request;
+const { txMapSdk } = require("../../utils/txmap");
 const { cronToTime, timeAToCron } = require("../../utils/util");
 Page({
   /**
@@ -15,8 +16,10 @@ Page({
     remark: null,
     time: ["07:00"],
     current: null,
-    type: null,
-    typeName: null,
+    type: 'sign',
+    typeName: "签到",
+    latitude: 0,
+    longitude: 0,
     address: null,
     loading: false,
     isShowtypePick: false,
@@ -25,10 +28,17 @@ Page({
       if (type === "minute") {
         return options.filter((option) => option % 5 === 0);
       }
-
       return options;
     },
-    actions: [
+    locationActions: [
+      {
+        name: "获取当前位置",
+      },
+      {
+        name: "地图选点获取位置",
+      },
+    ],
+    taskTypeActions: [
       {
         name: "签到",
       },
@@ -92,16 +102,25 @@ Page({
   },
   addTask() {
     let that = this;
-    let { id, type, ctype, title, time, address,user} = this.data;
-    console.log(id)
-    if(ctype !=="add" &&  !id){
+    let {
+      id,
+      type,
+      ctype,
+      title,
+      time,
+      address,
+      user,
+      latitude,
+      longitude,
+    } = this.data;
+    if (ctype !== "add" && !id) {
       Toast.fail("当前未登录");
-      setTimeout(()=>{
+      setTimeout(() => {
         wx.navigateTo({
-          url: '/pages/splash/splash?page=/pages/tasks/tasks',
-        })
-      },800)
-      return
+          url: "/pages/splash/splash?page=/pages/tasks/tasks",
+        });
+      }, 800);
+      return;
     }
     if (!title && !time && !address) return;
     let url = `/task?id=${user.id}`,
@@ -126,6 +145,8 @@ Page({
       cron,
       address,
       type,
+      latitude,
+      longitude,
     })
       .then((data) => {
         console.log(data);
@@ -169,6 +190,48 @@ Page({
     }
   },
 
+  chooseLocation() {
+    const { latitude, longitude } = this.data;
+    wx.chooseLocation({
+      latitude,
+      longitude,
+      success: ({ latitude, longitude, address }) => {
+        this.setData({
+          latitude,
+          longitude,
+          address,
+        });
+      },
+      fail: (res) => {
+        console.log("地图选点出现错误");
+      },
+    });
+  },
+  getCurrentLocation(){
+    let that = this;
+    wx.getLocation({
+        type: "wgs84",
+        success({ latitude, longitude }) {
+          txMapSdk.reverseGeocoder({
+            location: {
+              latitude: latitude,
+              longitude: longitude,
+            },
+            success: function ({ result }) {
+              that.setData({
+                latitude,
+                longitude,
+                address: result.address,
+              });
+            },
+            fail: function (res) {
+              console.log(res);
+            },
+          });
+        },
+    });
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -197,14 +260,18 @@ Page({
       this.setData({ ...options });
     }
     this.setData({
-      user: app.globalData.user
-    })
+      user: app.globalData.user,
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {},
+  onReady: function () {
+    if(!this.data.address){
+        this.getCurrentLocation()
+    }
+  },
 
   /**
    * 生命周期函数--监听页面显示

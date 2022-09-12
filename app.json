@@ -1,41 +1,46 @@
 {
-    "tabBar": {
-        "custom": true,
-        "color": "#000000",
-        "selectedColor": "#000000",
-        "backgroundColor": "#000000",
-        "list": [
-            {
-                "pagePath": "pages/index/index",
-                "text": "首页"
-            },
-            {
-                "pagePath": "pages/tasks/tasks",
-                "text": "renwu"
-            },
-            {
-                "pagePath": "pages/profile/profile",
-                "text": "我的"
-            }
-        ]
-    },
-    "pages": [
-        "pages/splash/splash",
-        "pages/index/index",
-        "pages/tasks/tasks",
-        "pages/profile/profile",
-        "pages/editTask/edit",
-        "pages/editStu/edit",
-        "pages/logs/logs",
-        "pages/push/push",
-        "pages/service/service",
-        "pages/admin/admin"
-    ],
-    "window": {
-        "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#fff",
-        "navigationBarTitleText": "黄同学的小助手",
-        "navigationBarTextStyle": "black"
-    },
-    "sitemapLocation": "sitemap.json"
+  "tabBar": {
+    "custom": true,
+    "color": "#000000",
+    "selectedColor": "#000000",
+    "backgroundColor": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tasks/tasks",
+        "text": "renwu"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "pages": [
+    "pages/splash/splash",
+    "pages/index/index",
+    "pages/tasks/tasks",
+    "pages/profile/profile",
+    "pages/editTask/edit",
+    "pages/editStu/edit",
+    "pages/logs/logs",
+    "pages/push/push",
+    "pages/service/service",
+    "pages/admin/admin"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "黄同学的小助手",
+    "navigationBarTextStyle": "black"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于打卡位置展示，也可切换地图选点模式"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
 }
