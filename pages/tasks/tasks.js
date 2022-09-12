@@ -117,7 +117,7 @@ Page({
       wx.removeStorageSync("isNeedTaskRefresh");
     }
 
-    if (!this.data.user.id) {
+    if (!this.data?.user?.id) {
       this.checkLogin();
       this.setData({
         user: app.globalData.user,

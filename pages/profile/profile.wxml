@@ -9,8 +9,9 @@
         </view>
 
         <view class="userinfo">
-            <view class="username">{{nickname}}</view>
-            <view class="account-info">当前共有 {{user.num}} 个账号签到</view>
+            <text class="username">{{nickname}}</text>
+            <text class="account-info"> ({{user.id}})</text>
+            <view class="account-info">当前共有 {{user.num || 0}} 个账号签到</view>
         </view>
     </view>
     <sub-title title="我的账号"></sub-title>
