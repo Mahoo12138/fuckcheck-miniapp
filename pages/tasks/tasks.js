@@ -49,17 +49,13 @@ Page({
   },
   editCard({ detail, target }) {
     let that = this;
-    console.log(target);
-    const { stuid, ...task } = this.data.tasks[target.dataset.index];
+    const { stuids, ...task } = this.data.tasks[target.dataset.index];
     if (detail.action.type === "default") {
       const url = qs(task);
-      console.log(stuid);
       wx.navigateTo({
         url:
           "/pages/editTask/edit?" +
-          url +
-          (stuid === null ? "" : `&sid=${stuid.id}`) +
-          "&ctype=edit",
+          url + "&ctype=edit",
       });
     } else {
       Dialog.confirm({
@@ -67,7 +63,7 @@ Page({
         message: `签到地点：${task.address}\n 签到时间：${task.time}`,
       })
         .then((res) => {
-          if(stuid.length){
+          if(stuids.length){
             Toast({
               message: "任务使用中，无法删除",
               position: "bottom"
