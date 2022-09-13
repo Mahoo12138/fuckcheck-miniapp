@@ -196,11 +196,7 @@ Page({
       latitude,
       longitude,
       success: ({ latitude, longitude, address }) => {
-        this.setData({
-          latitude,
-          longitude,
-          address,
-        });
+        this.convertLocation(latitude, longitude)
       },
       fail: (res) => {
         console.log("地图选点出现错误");
@@ -212,26 +208,31 @@ Page({
     wx.getLocation({
         type: "wgs84",
         success({ latitude, longitude }) {
-          txMapSdk.reverseGeocoder({
-            location: {
-              latitude: latitude,
-              longitude: longitude,
-            },
-            coord_type: 3,
-            success: function ({ result }) {
-              that.setData({
-                latitude,
-                longitude,
-                address: result.address,
-              });
-            },
-            fail: function (res) {
-              console.log(res);
-            },
-          });
+          that.convertLocation(latitude,longitude)
         },
     });
   },
+  
+  convertLocation(latitude, longitude){
+    const that = this;
+    txMapSdk.reverseGeocoder({
+      location: {
+        latitude: latitude,
+        longitude: longitude,
+      },
+      coord_type: 3,
+      success: function ({ result }) {
+        that.setData({
+          latitude,
+          longitude,
+          address: result.address,
+        });
+      },
+      fail: function (res) {
+        console.log(res);
+      },
+    });
+  }
 
   /**
    * 生命周期函数--监听页面加载
