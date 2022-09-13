@@ -217,6 +217,7 @@ Page({
               latitude: latitude,
               longitude: longitude,
             },
+            coord_type: 3,
             success: function ({ result }) {
               that.setData({
                 latitude,
