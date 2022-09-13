@@ -16,7 +16,7 @@ Page({
     remark: null,
     time: ["07:00"],
     current: null,
-    type: 'sign',
+    type: "sign",
     typeName: "签到",
     latitude: 0,
     longitude: 0,
@@ -196,43 +196,51 @@ Page({
       latitude,
       longitude,
       success: ({ latitude, longitude, address }) => {
-        this.convertLocation(latitude, longitude)
+        console.log("拾取的经纬度：", latitude, longitude);
+        this.convertLocation(latitude, longitude, address);
       },
       fail: (res) => {
         console.log("地图选点出现错误");
+      }
+    });
+  },
+  getCurrentLocation() {
+    let that = this;
+    wx.getLocation({
+      type: "gcj02",
+      success({ latitude, longitude }) {
+        that.convertLocation(latitude, longitude);
       },
     });
   },
-  getCurrentLocation(){
-    let that = this;
-    wx.getLocation({
-        type: "wgs84",
-        success({ latitude, longitude }) {
-          that.convertLocation(latitude,longitude)
-        },
-    });
-  },
-  
-  convertLocation(latitude, longitude){
+
+  convertLocation(latitude, longitude, address) {
     const that = this;
     txMapSdk.reverseGeocoder({
       location: {
         latitude: latitude,
         longitude: longitude,
       },
-      coord_type: 3,
       success: function ({ result }) {
+        let { lat, lng } = result.location;
+        const xpi = (3.14159265358979324 * 3000.0) / 180.0;
+        const z =
+          Math.sqrt(lng * lng + lat * lat) + 0.00002 * Math.sin(lat * xpi);
+        const theta = Math.atan2(lat, lng) + 0.000003 * Math.cos(lng * xpi);
+        lng = z * Math.cos(theta) + 0.0065;
+        lat = z * Math.sin(theta) + 0.006;
+        console.log("转换后的经纬度：", lat, lng);
         that.setData({
-          latitude,
-          longitude,
-          address: result.address,
+          latitude: lat,
+          longitude: lng,
+          address: address || result.address,
         });
       },
       fail: function (res) {
         console.log(res);
       },
     });
-  }
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -270,8 +278,8 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    if(!this.data.address){
-        this.getCurrentLocation()
+    if (!this.data.address) {
+      this.getCurrentLocation();
     }
   },
 
