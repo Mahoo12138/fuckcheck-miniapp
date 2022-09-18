@@ -37,11 +37,14 @@
                 <van-checkbox-group value="{{ taskList }}" bind:change="onTasksChange">
                     <van-cell-group>
                         <block wx:for="{{actions}}" wx:for-item="item" wx:key="id" wx:for-index="index">
-                            <van-cell size="large" clickable data-taskid="{{item.id}}" bind:click="handleChooseTask">
+                            <van-cell size="large" clickable data-taskid="{{item.id}}" bind:click="handleChooseTask" use-label-slot>
                                 <van-checkbox slot="right-icon" name="{{item.id}}" />
                                 <view slot="title">
                                     <van-tag size="medium" type="primary">{{utils.typeToName(item.type)}}</van-tag>
-                                    {{item.name}} - {{item.address}}
+                                    {{item.name}}
+                                </view>
+                                <view slot="label">
+                                    {{item.address}}
                                 </view>
                             </van-cell>
                         </block>

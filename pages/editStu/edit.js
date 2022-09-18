@@ -140,10 +140,8 @@ Page({
       .then(() => {
         // on confirm
         request(`/stuid/${sid}`, "DELETE").then((data) => {
-          if (data.code === 0) {
-            this.delayRAR("删除成功");
-          }
-          this.delayRAR("删除失败");
+          const msg = data.code === 0 ? "删除成功" : "删除失败"
+          this.delayRAR(msg);
         });
       })
       .catch(() => {
