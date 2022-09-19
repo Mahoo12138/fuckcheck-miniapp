@@ -16,6 +16,7 @@ Page({
     remark: null,
     time: ["07:00"],
     current: null,
+    defaultTime: "12:30",
     type: "sign",
     typeName: "签到",
     latitude: 0,
@@ -26,7 +27,7 @@ Page({
     isShowtimePick: false,
     filter(type, options) {
       if (type === "minute") {
-        return options.filter((option) => option % 5 === 0);
+        return options.filter((option) => option % 2 === 0);
       }
       return options;
     },
@@ -76,8 +77,10 @@ Page({
     }
   },
   showTimePicker({ target }) {
+      console.log(target)
     this.setData({
-      current: target.dataset.index,
+      current: target.dataset.id,
+      defaultTime: target.dataset.time,
       isShowtimePick: true,
     });
   },
@@ -93,7 +96,7 @@ Page({
   },
   handleTimePicker(e) {
     const { time, current } = this.data;
-    time[time.findIndex((t) => t === current)] = e.detail;
+    time[current] = e.detail;
     console.log(e);
     this.setData({
       time,
@@ -246,7 +249,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options);
     if (options.ctype === "edit") {
       Object.keys(options).forEach((key) => {
         options[key] = decodeURIComponent(options[key]);
@@ -254,12 +256,9 @@ Page({
 
       options.cron = options.cron.split("|");
 
-      console.log(options.cron);
-
       const time = options.cron.map((cron) => {
         return cronToTime(cron);
       });
-      console.log(time);
       const typeName = this.handleTaskType(options.type);
       this.setData({
         typeName,
@@ -273,10 +272,6 @@ Page({
       user: app.globalData.user,
     });
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
   onReady: function () {
     if (!this.data.address) {
       this.getCurrentLocation();
