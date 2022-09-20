@@ -1,6 +1,7 @@
 var typeToName = function (type) {
     if(type === 'MONTH') return "月卡卡密"
     else if(type === 'WEEK') return "周卡卡密"
+    else if(type === 'DAY') return "日卡卡密"
     else return "账号卡密"
 };
 
