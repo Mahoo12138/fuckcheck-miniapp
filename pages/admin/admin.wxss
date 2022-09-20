@@ -15,7 +15,7 @@
     bottom: 30rpx;
 }
 .admin-container{
-    margin-bottom: 150rpx;
+    margin-bottom: 180rpx;
 }
 .form-container{
     padding: 35rpx 48rpx;
@@ -29,7 +29,8 @@
 
 .no-more-container{
     text-align: center;
-    padding: 50rpx;
+    padding: 10rpx;
+    margin-bottom: 150rpx;
     color: rgb(139, 131, 131);
 }
 

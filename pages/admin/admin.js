@@ -134,8 +134,9 @@ Page({
     });
   },
   grabNextData(type) {
-    const { page, showingCards } = this.data;
-    request(`/card?page=${page}&type=${type || ""}`, "GET").then(({ data }) => {
+    const { page, showingCards, unused, used} = this.data;
+    const status = (unused ^ used) ? unused : '';
+    request(`/card?page=${page}&type=${type || ""}&status=${status}`, "GET").then(({ data }) => {
       if (data.length === 0) {
         this.setData({
           over: true,
