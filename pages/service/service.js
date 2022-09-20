@@ -19,7 +19,9 @@ Page({
           message: data.message,
         });
       } else {
-        const { expireDate } = data.data;
+        const { expireDate, stu_amount } = data.data;
+        app.globalData.user.expireDate = expireDate;
+        app.globalData.user.stu_amount = stu_amount;
         this.setData({ ...data.data, expireDate: timeFormater(expireDate) });
         Toast({
           message:data.message,
